@@ -8,10 +8,26 @@ dan6 = [[0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], 
 dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊']]
 dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
 
-shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan7, dan8]
+shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
 
-cyakusyuA = int(input("筋"))  # 2
-cyakusyuB = int(input("段"))  # 3
+for dan in range(len(shogiban)):
+    for i in shogiban[dan]:
+        print(i[1], end="")
+    print("")
 
-if shogiban[cyakusyuB - 1][9 - cyakusyuA][1] == '歩':
-    print('ok')
+print("移動元")
+Origin_Suji = int(input("筋"))
+Origin_Dan = int(input("段"))
+print("移動先")
+goal_Suji = int(input("筋"))
+goal_Dan = int(input("段"))
+
+if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == 0:
+    koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
+    shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
+    shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+
+for dan in range(len(shogiban)):
+    for i in shogiban[dan]:
+        print(i[1], end="")
+    print("")

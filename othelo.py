@@ -77,6 +77,7 @@ class ReversiBoard(object):
                 possible.append((x, y))
         return possible
 
+
 if __name__ == "__main__":
     board = ReversiBoard()
     board.show_board()

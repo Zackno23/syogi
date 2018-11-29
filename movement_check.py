@@ -16,8 +16,13 @@ class Judgement:
 
     def movelist_kyo(self, sengo, suji, dan, koma):
         kyo_list = []
-        for i in range(dan - 1):
-            kyo_list.append([suji, i + 1, koma])
+        if sengo == 0:
+            for i in range(dan - 1):
+                kyo_list.append([suji, i + 1, koma])
+
+        elif sengo == 1:
+            for i in range(9 - dan - 1):
+                kyo_list.append([suji, dan + 1 + i, koma])
         return kyo_list
 
 
@@ -30,9 +35,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_香車の動ける範囲を返す_先後判定あり(self):
-        expected = [[1, 1, '香'], [1, 2, "香"], [1, 3, "香"], [1, 4, '香']]
+        expected = [[2, 1, '香'], [2, 2, "香"], [2, 3, "香"], [2, 4, "香"], [2, 5, "香"], [2, 6, "香"], [2, 7, "香"], ]
         sashite = Judgement()
-        actual = sashite.movelist_kyo(0, 1, 5, "香")
+        actual = sashite.movelist_kyo(0, 2, 8, "香")
         self.assertEqual(expected, actual)
 
 

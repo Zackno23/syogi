@@ -1,2 +1,5 @@
-with open('shogiban.csv', mode="r") as ban:
-    print(ban.read())
+class Movement
+    def __init__(self, list):
+        self.list = list
+
+    def fu(self):

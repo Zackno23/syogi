@@ -9,6 +9,8 @@ dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], 
 dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
 
 shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
+mochigoma_opponent = []
+mochigoma_me = []
 
 for dan in range(len(shogiban)):
     for i in shogiban[dan]:
@@ -26,8 +28,19 @@ while True:
 
     if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == turn:
         koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
-        shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
-        shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+        moved = shogiban[goal_Dan - 1][9 - goal_Suji]
+
+        if moved[0] != turn and moved[0] != 2:
+            moved[0] = turn
+            if turn == 0:
+                mochigoma_me.append(moved)
+            else:
+                mochigoma_opponent.append(moved)
+
+        koma = [2, '＊']
+        moved = koma
+
+
         if turn == 0:
             turn = 1
         elif turn == 1:
@@ -36,7 +49,9 @@ while True:
         print("不正な着手です。")
         continue
 
+    print(mochigoma_opponent)
     for dan in range(len(shogiban)):
         for i in shogiban[dan]:
             print(i[1], end="")
         print("")
+    print(mochigoma_me)

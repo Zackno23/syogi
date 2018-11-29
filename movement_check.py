@@ -17,12 +17,17 @@ class Judgement:
     def movelist_kyo(self, sengo, suji, dan, koma):
         kyo_list = []
         if sengo == 0:
-            for i in range(dan - 1):
-                kyo_list.append([suji, i + 1, koma])
-
+            if dan != 1:
+                for i in range(dan - 1):
+                    kyo_list.append([suji, i + 1, koma])
+            else:
+                return False
         elif sengo == 1:
-            for i in range(9 - dan - 1):
-                kyo_list.append([suji, dan + 1 + i, koma])
+            if dan != 9:
+                for i in range(9 - dan - 1):
+                    kyo_list.append([suji, dan + 1 + i, koma])
+            else:
+                return False
         return kyo_list
 
 

@@ -15,19 +15,28 @@ for dan in range(len(shogiban)):
         print(i[1], end="")
     print("")
 
-print("移動元")
-Origin_Suji = int(input("筋"))
-Origin_Dan = int(input("段"))
-print("移動先")
-goal_Suji = int(input("筋"))
-goal_Dan = int(input("段"))
+turn = 0
+while True:
+    print("移動元")
+    Origin_Suji = int(input("筋"))
+    Origin_Dan = int(input("段"))
+    print("移動先")
+    goal_Suji = int(input("筋"))
+    goal_Dan = int(input("段"))
 
-if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == 0:
-    koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
-    shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
-    shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+    if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == turn:
+        koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
+        shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
+        shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+        if turn == 0:
+            turn = 1
+        elif turn == 1:
+            turn = 0
+    else:
+        print("不正な着手です。")
+        continue
 
-for dan in range(len(shogiban)):
-    for i in shogiban[dan]:
-        print(i[1], end="")
-    print("")
+    for dan in range(len(shogiban)):
+        for i in shogiban[dan]:
+            print(i[1], end="")
+        print("")

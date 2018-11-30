@@ -51,9 +51,40 @@ class Judgement:
                 return [[suji + 1, dan + 2, koma], [suji - 1, dan + 2, koma]]
 
     def movelist_gin(self, sengo, suji, dan, koma):
-        if suji ==
+        if sengo == 0:
+            if suji == 1 and dan == 1:
+                return [[2, 2, '銀']]
+            elif suji == 1 and dan == 9:
+                return [[2, 8, '銀'], [1, 8, '銀']]
+            elif suji == 9 and dan == 1:
+                return [[8, 2, '銀']]
+            elif suji == 9 and dan == 9:
+                return [[9, 8, '銀'], [8, 8, '銀']]
+            else:
+                return [[suji + 1, dan - 1, '銀'], [suji, dan - 1, '銀'], [suji - 1, dan - 1, '銀'],
+                        [suji + 1, dan + 1, '銀'], [suji - 1, dan + 1, '銀']]
+        elif sengo == 1:
+            if suji == 1 and dan == 1:
+                return [[2, 2, '銀'], [1, 2, "銀"]]
+            elif suji == 1 and dan == 9:
+                return [[2, 8, '銀']]
+            elif suji == 9 and dan == 1:
+                return [[8, 2, '銀'], [9, 2, '銀']]
+            elif suji == 9 and dan == 9:
+                return [[8, 8, '銀']]
+            else:
+                return [[suji + 1, dan - 1, '銀'], [suji, dan + 1, '銀'], [suji - 1, dan - 1, '銀'],
+                        [suji + 1, dan + 1, '銀'], [suji - 1, dan + 1, '銀']]
 
-
+    def movelist_kin(self, sengo, suji, dan, koma):
+        if sengo == 0:
+            kin_list = [[suji + 1, dan - 1, '金'], [suji, dan - 1, '金'], [suji - 1, dan - 1, '金'], [suji + 1, dan, '金'],
+                        [suji - 1, dan, '金'], [suji, dan + 1, '金']]
+            print(kin_list)
+            for list in kin_list:
+                if 0 in list:
+                    kin_list.remove(list)
+        return kin_list
 
 
 class MyTestCase(unittest.TestCase):
@@ -76,10 +107,16 @@ class MyTestCase(unittest.TestCase):
         actual = sashite.movelist_kei(1, 2, 2, "桂")
         self.assertEqual(expected, actual)
 
-    def test_銀の動ける範囲を返す(self):
-        expected = [[6, 4, '銀'], [5, 4, '銀'], [4, 4, '銀'], [6, 6, '銀'], [4, 6, '銀']]
+    def test_銀の動ける範囲を返す_先後判定あり(self):
+        expected = [[2, 2, '銀']]
         sashite = Judgement()
-        actual = sashite.movelist_gin(0, 5, 5, "銀")
+        actual = sashite.movelist_gin(0, 1, 1, "銀")
+        self.assertEqual(expected, actual)
+
+    def test_金の動ける範囲を返す(self):
+        expected = [[6, 4, '金'], [5, 4, '金'], [4, 4, '金'], [6, 5, '金'], [4, 5, '金'], [5, 6, '金'], ]
+        sashite = Judgement()
+        actual = sashite.movelist_kin(0, 9, 1, "金")
         self.assertEqual(expected, actual)
 
 

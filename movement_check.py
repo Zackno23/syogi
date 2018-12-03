@@ -238,9 +238,8 @@ class MyTestCase(unittest.TestCase):
 
     def test_玉の動ける範囲を返す(self):
         sashite = Judgement()
-        expected = [[6, 4, "玉"], [5, 4, "玉"], [4, 4, "玉"], [6, 5, "玉"], [4, 5, "玉"], [6, 6, "玉"], [5, 6, "玉"],
-                    [4, 6, "玉"]]
-        actual = sashite.movelist_GYOKU(0, 5, 5, '玉')
+        expected = [[9, 8, "玉"], [8, 8, "玉"], [8, 9, "玉"]]
+        actual = sashite.movelist_GYOKU(0, 9, 9, '玉')
         self.assertEqual(expected, actual)
 
 

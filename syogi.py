@@ -17,6 +17,7 @@ mochigoma_opponent = []
 mochigoma_me = []
 
 
+# 初形の表示
 def display(board):
     for dan in range(len(board)):
         for i in board[dan]:
@@ -65,6 +66,9 @@ def main():
 
             if moved[0] != turn and moved[0] != 2:
                 moved[0] = turn
+                if moved[1] == "玉":
+                    os.system("say '負けました'")
+                    break
                 if turn == 0:
                     mochigoma_me.append(moved)
                 else:

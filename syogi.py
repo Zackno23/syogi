@@ -1,4 +1,3 @@
-
 import os
 import time
 
@@ -7,6 +6,7 @@ import speech_recognition as sr
 from mutagen.mp3 import MP3 as mp3
 
 from movement_check import Judgement
+from nari import get_narigoma, narigoma
 
 #   初形
 dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
@@ -34,6 +34,7 @@ def playsound():
     time.sleep(mp3_length + 0.25)  # 再生開始後、音源の長さだけ待つ(0.25待つのは誤差解消)
     pygame.mixer.music.stop()  # 音源の長さ待ったら再生停止
 
+
 # 初形の表示
 def display(board):
     for dan in range(len(board)):
@@ -43,7 +44,7 @@ def display(board):
 
 
 # 駒を判別し、movement_checkから動けるところリストを引っ張ってくる
-def pieces(turn, suji, dan, koma):
+def pieces(turn, suji, dan, koma, sente_list, gote_list):
     if koma == "歩":
         fu = Judgement()
         area = fu.movelist_FU(turn, suji, dan, koma)
@@ -51,7 +52,7 @@ def pieces(turn, suji, dan, koma):
 
     if koma == "香":
         kyo = Judgement()
-        area = kyo.movelist_kyo(turn, suji, dan, koma)
+        area = kyo.movelist_kyo(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
     if koma == "桂":
@@ -64,25 +65,39 @@ def pieces(turn, suji, dan, koma):
         area = gin.movelist_gin(turn, suji, dan, koma)
         return area
 
-    if koma == "金":
+    if koma == "金" or koma == 'と' or koma == '杏' or koma == '圭' or koma == '全':
         kin = Judgement()
-        area = kin.movelist_kin()
-        return
+        area = kin.movelist_kin(turn, suji, dan, koma)
+        return area
+
+    # if koma == 'と' or koma == '杏' or koma == '圭' or koma == '全':
+    #     kin = Judgement()
+    #     area = kin.movelist_kin(turn, suji, dan, koma)
+    #     return
 
     if koma == "飛":
         hisya = Judgement()
-        area = hisya.movelist_HISYA()
+        area = hisya.movelist_HISYA(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
     if koma == "角":
         kaku = Judgement()
-        area = kaku.movelist_KAKU(turn, suji, dan, koma)
+        area = kaku.movelist_KAKU(turn, suji, dan, koma, sente_list, gote_list)
         return area
-
 
     if koma == "玉":
         gyoku = Judgement()
         area = gyoku.movelist_GYOKU(turn, suji, dan, koma)
+        return area
+
+    if koma == "馬":
+        uma = Judgement()
+        area = uma.movelist_UMA(turn, suji, dan, koma, sente_list, gote_list)
+        return area
+
+    if koma == "龍":
+        ryu = Judgement()
+        area = ryu.movelist_RYU(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
 
@@ -94,17 +109,12 @@ def main():
         #  自分の駒や相手の駒を飛び越したりしないため
         sente_piece_list = []
         gote_piece_list = []
-        for dan in shogiban:
-            for masume in dan:
-                if masume[0] == 0:
-                    sente_piece_list.append([9 - masume, dan + 1])
-                elif masume[1] == 1:
-                    gote_piece_list.append([9 - masume, dan + 1])
-        print(sente_piece_list)
-        print(gote_piece_list)
-
-
-
+        for a in range(len(shogiban)):
+            for b in range(len(shogiban[a])):
+                if shogiban[a][b][0] == 0:
+                    sente_piece_list.append([9 - b, a + 1])
+                elif shogiban[a][b][0] == 1:
+                    gote_piece_list.append([9 - b, a + 1])
 
         # 持ち駒があった場合の処理
         if (turn == 0 and len(mochigoma_me) > 0) or (turn == 1 and len(mochigoma_opponent) > 0):
@@ -144,8 +154,9 @@ def main():
             goal_Suji = int(input("筋"))
             goal_Dan = int(input("段"))
             moved = shogiban[goal_Dan - 1][9 - goal_Suji]
-            print(pieces(turn, Origin_Suji, Origin_Dan, koma[1]))
-            if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1]):
+            print(pieces(turn, Origin_Suji, Origin_Dan, koma[1], sente_piece_list, gote_piece_list))
+            if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1], sente_piece_list,
+                                                            gote_piece_list):
                 print("不正な指し手です。")
                 os.system("say '不正な指し手です'")
                 continue
@@ -157,22 +168,40 @@ def main():
                     os.system("say '負けました'")
                     break
                 if turn == 0:
+                    if moved[1] == 'と' or moved[1] == '杏' or moved[1] == '圭' or moved[1] == '全' or moved[1] == '龍' or \
+                            moved[1] == '馬':
+                        moved[1] = get_narigoma(moved[1])
                     mochigoma_me.append(moved)
                 else:
+                    if moved[1] == 'と' or moved[1] == '杏' or moved[1] == '圭' or moved[1] == '全' or moved[1] == '龍' or \
+                            moved[1] == '馬':
+                        moved[1] = get_narigoma(moved[1])
                     mochigoma_opponent.append(moved)
+
             elif moved[0] == turn:
                 print("不正な指し手です。")
                 os.system("say '不正な指し手です'")
                 continue
-            else:
-                shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
-                shogiban[goal_Dan - 1][9 - goal_Suji] = koma
-                playsound()
+            if (koma[1] == '歩' or koma[1] == '香' or koma[1] == '桂' or koma[1] == '銀' or koma[1] == '飛' or koma[
+                1] == '角'):
+                if turn == 0 and goal_Dan <= 3:
+                    narunaranai = input("成りますか?(y/n)")
+                    if narunaranai.lower() == 'y':
+                        koma[1] = narigoma(koma[1])
+                if turn == 1 and goal_Dan >= 7:
+                    narunaranai = input("成りますか?(y/n)")
+                    if narunaranai.lower() == 'y':
+                        koma[1] = narigoma(koma[1])
 
+            shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
+            shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+            playsound()
 
             if turn == 0:
+                read_text = f"先手 {goal_Suji}{goal_Dan}{moved[1]}"
                 turn = 1
             elif turn == 1:
+                read_text = f"後手 {goal_Suji}{goal_Dan}{moved[1]}"
                 turn = 0
         else:
             print("不正な指し手です。")

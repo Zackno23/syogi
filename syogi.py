@@ -28,6 +28,7 @@ def display(board):
 def main():
     turn = 0
     while True:
+        # 持ち駒があった場合の処理
         if (turn == 0 and len(mochigoma_me) > 0) or (turn == 1 and len(mochigoma_opponent) > 0):
             question_drop = input("持ち駒を使いますか?(y/n)")
             if question_drop.lower() == 'y':
@@ -53,7 +54,7 @@ def main():
                 display(shogiban)
                 print(mochigoma_me)
                 continue
-
+        # 指し手の処理
         Origin_Suji = int(input("筋"))
         Origin_Dan = int(input("段"))
         koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]

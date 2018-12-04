@@ -39,30 +39,29 @@ def display(board):
         print("")
 
 
-def pieces(turn, suji, dan, koma):
-    if shogiban[1] == "歩":
-        answer = Judgement.movelist_FU(turn, suji, dan, koma)
-        return answer
+def pieces(turn, asuji, dan, koma):
+    if koma == "歩":
+        return Judgement.movelist_FU((turn, asuji, dan, koma))
 
-    if shogiban[1] == "香":
+    if koma == "香":
         return Judgement.movelist_kyo(turn, suji, dan, koma)
 
-    if shogiban[1] == "桂":
+    if koma == "桂":
         return Judgement.movelist_kei(turn, suji, dan, koma)
 
-    if shogiban[1] == "銀":
+    if koma == "銀":
         return Judgement.movelist_gin(turn, suji, dan, koma)
 
-    if shogiban[1] == "金":
+    if koma == "金":
         return Judgement.movelist_kin(turn, suji, dan, koma)
 
-    if shogiban[1] == "飛":
+    if koma == "飛":
         return Judgement.movelist_HISYA(turn, suji, dan, koma)
 
-    if shogiban[1] == "角":
+    if koma == "角":
         return Judgement.movelist_KAKU(turn, suji, dan, koma)
 
-    if shogiban[1] == "玉":
+    if koma == "玉":
         return Judgement.movelist_GYOKU(turn, suji, dan, koma)
 
 
@@ -101,14 +100,14 @@ def main():
         Origin_Suji = int(input("筋"))
         Origin_Dan = int(input("段"))
         koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
-        print(Judgement.movelist_FU(turn, Origin_Suji, Origin_Dan, koma[1]))
+        a = pieces(turn, Origin_Suji, Origin_Dan, koma[1])
+        print(a)
 
         if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == turn:
             print("移動先")
             goal_Suji = int(input("筋"))
             goal_Dan = int(input("段"))
-            a = pieces(turn, Origin_Suji, Origin_Dan, koma[1])
-            print(a)
+
             # print (pieces(turn, Origin_Suji, Origin_Dan, koma[1]))
             # if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1]):
             #     print ("不正な指し手です。")

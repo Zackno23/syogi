@@ -89,6 +89,23 @@ def pieces(turn, suji, dan, koma):
 def main():
     turn = 0
     while True:
+        #  先手の駒、後手の駒をそれぞれリストアップする。
+        #  香車、飛車、角、竜王、馬のため
+        #  自分の駒や相手の駒を飛び越したりしないため
+        sente_piece_list = []
+        gote_piece_list = []
+        for dan in shogiban:
+            for masume in dan:
+                if masume[0] == 0:
+                    sente_piece_list.append([9 - masume, dan + 1])
+                elif masume[1] == 1:
+                    gote_piece_list.append([9 - masume, dan + 1])
+        print(sente_piece_list)
+        print(gote_piece_list)
+
+
+
+
         # 持ち駒があった場合の処理
         if (turn == 0 and len(mochigoma_me) > 0) or (turn == 1 and len(mochigoma_opponent) > 0):
             question_drop = input("持ち駒を使いますか?(y/n)")

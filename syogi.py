@@ -1,7 +1,9 @@
+
 import os
 import time
 
 import pygame
+import speech_recognition as sr
 from mutagen.mp3 import MP3 as mp3
 
 from movement_check import Judgement
@@ -45,23 +47,32 @@ def pieces(turn, suji, dan, koma):
     if koma == "歩":
         fu = Judgement()
         area = fu.movelist_FU(turn, suji, dan, koma)
-
         return area
 
     if koma == "香":
-        return Judgement.movelist_kyo(turn, suji, dan, koma)
+        kyo = Judgement()
+        area = kyo.movelist_kyo(turn, suji, dan, koma)
+        return area
 
     if koma == "桂":
-        return Judgement.movelist_kei(turn, suji, dan, koma)
+        keima = Judgement()
+        area = keima.movelist_kei(turn, suji, dan, koma)
+        return area
 
     if koma == "銀":
-        return Judgement.movelist_gin(turn, suji, dan, koma)
+        gin = Judgement()
+        area = gin.movelist_gin(turn, suji, dan, koma)
+        return area
 
     if koma == "金":
-        return Judgement.movelist_kin(turn, suji, dan, koma)
+        kin = Judgement()
+        area = kin.movelist_kin()
+        return
 
     if koma == "飛":
-        return Judgement.movelist_HISYA(turn, suji, dan, koma)
+        hisya = Judgement()
+        area = hisya.movelist_HISYA()
+        return area
 
     if koma == "角":
         kaku = Judgement()
@@ -70,7 +81,9 @@ def pieces(turn, suji, dan, koma):
 
 
     if koma == "玉":
-        return Judgement.movelist_GYOKU(turn, suji, dan, koma)
+        gyoku = Judgement()
+        area = gyoku.movelist_GYOKU(turn, suji, dan, koma)
+        return area
 
 
 def main():
@@ -117,7 +130,7 @@ def main():
             print(pieces(turn, Origin_Suji, Origin_Dan, koma[1]))
             if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1]):
                 print("不正な指し手です。")
-                #os.system("say '不正な指し手です'")
+                os.system("say '不正な指し手です'")
 
             moved = shogiban[goal_Dan - 1][9 - goal_Suji]
 
@@ -152,13 +165,14 @@ def main():
 
 if __name__ == "__main__":
     display(shogiban)
-    # r = sr.Recognizer()
-    # mic = sr.Microphone()
-    #
-    # with mic as source:
-    #     r.adjust_for_ambient_noise(source)
-    #     audio = r.listen(source)
-    # text = (r.recognize_google(audio, language='ja-JP'))
-    # if text == 'お願いします':
-    #     os.system("say 'お願いします。'")
+
+    r = sr.Recognizer()
+    mic = sr.Microphone()
+
+    with mic as source:
+        r.adjust_for_ambient_noise(source)
+        audio = r.listen(source)
+    text = (r.recognize_google(audio, language='ja-JP'))
+    if text == "お願いします":
+        os.system("say 'お願いします。'")
     main()

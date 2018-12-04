@@ -1,6 +1,10 @@
 import os
+import time
 
-import speech_recognition as sr
+import pygame
+from mutagen.mp3 import MP3 as mp3
+
+from movement_check import Judgement
 
 dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
 dan1 = [[2, '＊'], [1, '飛'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [1, '角'], [2, '＊']]
@@ -17,12 +21,49 @@ mochigoma_opponent = []
 mochigoma_me = []
 
 
+# 駒音の再生
+def playsound():
+    filename = "japanese-chess-piece1.mp3"  # 再生したいmp3ファイル
+    pygame.mixer.init()
+    pygame.mixer.music.load(filename)  # 音源を読み込み
+    mp3_length = mp3(filename).info.length  # 音源の長さ取得
+    pygame.mixer.music.play(1)  # 再生開始。1の部分を変えるとn回再生(その場合は次の行の秒数も×nすること)
+    time.sleep(mp3_length + 0.25)  # 再生開始後、音源の長さだけ待つ(0.25待つのは誤差解消)
+    pygame.mixer.music.stop()  # 音源の長さ待ったら再生停止
+
 # 初形の表示
 def display(board):
     for dan in range(len(board)):
         for i in board[dan]:
             print(i[1], end="")
         print("")
+
+
+def pieces(turn, suji, dan, koma):
+    if shogiban[1] == "歩":
+        answer = Judgement.movelist_FU(turn, suji, dan, koma)
+        return answer
+
+    if shogiban[1] == "香":
+        return Judgement.movelist_kyo(turn, suji, dan, koma)
+
+    if shogiban[1] == "桂":
+        return Judgement.movelist_kei(turn, suji, dan, koma)
+
+    if shogiban[1] == "銀":
+        return Judgement.movelist_gin(turn, suji, dan, koma)
+
+    if shogiban[1] == "金":
+        return Judgement.movelist_kin(turn, suji, dan, koma)
+
+    if shogiban[1] == "飛":
+        return Judgement.movelist_HISYA(turn, suji, dan, koma)
+
+    if shogiban[1] == "角":
+        return Judgement.movelist_KAKU(turn, suji, dan, koma)
+
+    if shogiban[1] == "玉":
+        return Judgement.movelist_GYOKU(turn, suji, dan, koma)
 
 
 def main():
@@ -38,6 +79,7 @@ def main():
                 goal_Dan = int(input("段"))
                 if shogiban[goal_Dan - 1][9 - goal_Suji] != [2, "＊"]:
                     print("不正な指し手です")
+                    os.system("say '不正な指し手です'")
                 shogiban[goal_Dan - 1][9 - goal_Suji] = [0, drop]
                 if turn == 0:
                     num = mochigoma_me.index([0, drop])
@@ -50,6 +92,7 @@ def main():
                     turn = 1
                 elif turn == 1:
                     turn = 0
+                playsound()
                 print(mochigoma_opponent)
                 display(shogiban)
                 print(mochigoma_me)
@@ -58,11 +101,19 @@ def main():
         Origin_Suji = int(input("筋"))
         Origin_Dan = int(input("段"))
         koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
+        print(Judgement.movelist_FU(turn, Origin_Suji, Origin_Dan, koma[1]))
 
         if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == turn:
             print("移動先")
             goal_Suji = int(input("筋"))
             goal_Dan = int(input("段"))
+            a = pieces(turn, Origin_Suji, Origin_Dan, koma[1])
+            print(a)
+            # print (pieces(turn, Origin_Suji, Origin_Dan, koma[1]))
+            # if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1]):
+            #     print ("不正な指し手です。")
+            #     os.system("say '不正な指し手です'")
+
             moved = shogiban[goal_Dan - 1][9 - goal_Suji]
 
             if moved[0] != turn and moved[0] != 2:
@@ -78,12 +129,15 @@ def main():
             shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
             shogiban[goal_Dan - 1][9 - goal_Suji] = koma
 
+            playsound()
             if turn == 0:
                 turn = 1
             elif turn == 1:
                 turn = 0
         else:
             print("不正な指し手です。")
+            os.system("say '不正な指し手です'")
+
             continue
 
         print(mochigoma_opponent)
@@ -93,13 +147,13 @@ def main():
 
 if __name__ == "__main__":
     display(shogiban)
-    r = sr.Recognizer()
-    mic = sr.Microphone()
-
-    with mic as source:
-        r.adjust_for_ambient_noise(source)
-        audio = r.listen(source)
-    text = (r.recognize_google(audio, language='ja-JP'))
-    if text == 'お願いします':
-        os.system("say 'お願いします。'")
+    # r = sr.Recognizer()
+    # mic = sr.Microphone()
+    #
+    # with mic as source:
+    #     r.adjust_for_ambient_noise(source)
+    #     audio = r.listen(source)
+    # text = (r.recognize_google(audio, language='ja-JP'))
+    # if text == 'お願いします':
+    #     os.system("say 'お願いします。'")
     main()

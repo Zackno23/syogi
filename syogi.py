@@ -126,15 +126,15 @@ def main():
             print("移動先")
             goal_Suji = int(input("筋"))
             goal_Dan = int(input("段"))
-
+            moved = shogiban[goal_Dan - 1][9 - goal_Suji]
             print(pieces(turn, Origin_Suji, Origin_Dan, koma[1]))
             if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1]):
                 print("不正な指し手です。")
                 os.system("say '不正な指し手です'")
+                continue
 
-            moved = shogiban[goal_Dan - 1][9 - goal_Suji]
-
-            if moved[0] != turn and moved[0] != 2:
+            elif moved[0] != turn and moved[0] != 2:
+                moved = shogiban[goal_Dan - 1][9 - goal_Suji]
                 moved[0] = turn
                 if moved[1] == "玉":
                     os.system("say '負けました'")
@@ -143,11 +143,16 @@ def main():
                     mochigoma_me.append(moved)
                 else:
                     mochigoma_opponent.append(moved)
+            elif moved[0] == turn:
+                print("不正な指し手です。")
+                os.system("say '不正な指し手です'")
+                continue
+            else:
+                shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
+                shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+                playsound()
 
-            shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
-            shogiban[goal_Dan - 1][9 - goal_Suji] = koma
 
-            playsound()
             if turn == 0:
                 turn = 1
             elif turn == 1:

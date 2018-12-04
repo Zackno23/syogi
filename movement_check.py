@@ -1,4 +1,4 @@
-# import unittest
+
 
 
 class Judgement:
@@ -172,75 +172,3 @@ class Judgement:
                 valid_list.append(x)
 
         return valid_list
-
-# class MyTestCase(unittest.TestCase):
-#
-#     def test_符号を入力したときの歩の動ける範囲を返す_先後判定あり(self):
-#         expected = [[4, 1, '歩']]
-#         cyakusyu = Judgement()
-#         actual = cyakusyu.movelist_FU(0, 4, 2, "歩")
-#         self.assertEqual(expected, actual)
-#
-#     def test_香車の動ける範囲を返す_先後判定あり(self):
-#         expected = [[2, 1, '香'], [2, 2, "香"], [2, 3, "香"], [2, 4, "香"], [2, 5, "香"], [2, 6, "香"], [2, 7, "香"], ]
-#         sashite = Judgement()
-#         actual = sashite.movelist_kyo(0, 2, 8, "香")
-#         self.assertEqual(expected, actual)
-#
-#     def test_桂馬の動ける範囲を返す_先後判定あり(self):
-#         expected = [[3, 4, "桂"], [1, 4, "桂"]]
-#         sashite = Judgement()
-#         actual = sashite.movelist_kei(1, 2, 2, "桂")
-#         self.assertEqual(expected, actual)
-#
-#     def test_銀の動ける範囲を返す_先後判定あり(self):
-#         expected = [[2, 2, '銀'], [1, 2, "銀"]]
-#         sashite = Judgement()
-#         actual = sashite.movelist_gin(1, 1, 1, "銀")
-#         self.assertEqual(expected, actual)
-#
-#     def test_金の動ける範囲を返す(self):
-#         expected = [[8, 1, '金'], [9, 2, '金'], [8, 2, '金']]
-#         sashite = Judgement()
-#         actual = sashite.movelist_kin(1, 9, 1, "金")
-#         self.assertEqual(expected, actual)
-#
-#     def test_角の動ける範囲を返す(self):
-#         sashite = Judgement()
-#         expected = [[4, 4, '角'],
-#                     [3, 3, '角'],
-#                     [2, 2, '角'],
-#                     [1, 1, '角'],
-#                     [6, 4, '角'],
-#                     [7, 3, '角'],
-#                     [8, 2, '角'],
-#                     [9, 1, '角'],
-#                     [6, 6, '角'],
-#                     [7, 7, '角'],
-#                     [8, 8, '角'],
-#                     [9, 9, '角'],
-#                     [4, 6, '角'],
-#                     [3, 7, '角'],
-#                     [2, 8, '角'],
-#                     [1, 9, '角']]
-#         actual = sashite.movelist_KAKU(0, 5, 5, "角")
-#         self.assertEqual(expected, actual)
-#
-#     def test_飛車の動ける範囲を返す(self):
-#         sashite = Judgement()
-#         expected = [[4, 5, "飛"], [3, 5, "飛"], [2, 5, "飛"], [1, 5, "飛"], [5, 4, "飛"], [5, 3, "飛"], [5, 2, "飛"],
-#                     [5, 1, "飛"], [6, 5, "飛"], [7, 5, "飛"], [8, 5, "飛"], [9, 5, "飛"], [5, 6, "飛"], [5, 7, "飛"],
-#                     [5, 8, "飛"], [5, 9, "飛"]]
-#
-#         actual = sashite.movelist_HISYA(0, 5, 5, '飛')
-#         self.assertEqual(expected, actual)
-#
-#     def test_玉の動ける範囲を返す(self):
-#         sashite = Judgement()
-#         expected = [[9, 8, "玉"], [8, 8, "玉"], [8, 9, "玉"]]
-#         actual = sashite.movelist_GYOKU(0, 9, 9, '玉')
-#         self.assertEqual(expected, actual)
-#
-#
-# if __name__ == "__main__":
-#     unittest.main()

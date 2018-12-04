@@ -39,9 +39,9 @@ def display(board):
         print("")
 
 
-def pieces(turn, asuji, dan, koma):
+def pieces(turn, suji, dan, koma):
     if koma == "歩":
-        return Judgement.movelist_FU((turn, asuji, dan, koma))
+        return Judgement.movelist_FU((turn, suji, dan, koma))
 
     if koma == "香":
         return Judgement.movelist_kyo(turn, suji, dan, koma)

@@ -70,11 +70,6 @@ def pieces(turn, suji, dan, koma, sente_list, gote_list):
         area = kin.movelist_kin(turn, suji, dan, koma)
         return area
 
-    # if koma == 'と' or koma == '杏' or koma == '圭' or koma == '全':
-    #     kin = Judgement()
-    #     area = kin.movelist_kin(turn, suji, dan, koma)
-    #     return
-
     if koma == "飛":
         hisya = Judgement()
         area = hisya.movelist_HISYA(turn, suji, dan, koma, sente_list, gote_list)
@@ -127,12 +122,24 @@ def main():
                 if shogiban[goal_Dan - 1][9 - goal_Suji] != [2, "＊"]:
                     print("不正な指し手です")
                     os.system("say '不正な指し手です'")
-                shogiban[goal_Dan - 1][9 - goal_Suji] = [0, drop]
+                    continue
                 if turn == 0:
-                    num = mochigoma_me.index([0, drop])
+                    if drop not in mochigoma_me:
+                        print("不正な指し手です")
+                        os.system("say '不正な指し手です'")
+                        continue
+                if turn == 1:
+                    if drop not in mochigoma_opponent:
+                        print("不正な指し手です")
+                        os.system("say '不正な指し手です'")
+                        continue
+
+                shogiban[goal_Dan - 1][9 - goal_Suji] = [turn, drop]
+                if turn == 0:
+                    num = mochigoma_me.index(drop)
                     mochigoma_me.pop(num)
                 elif turn == 1:
-                    num = mochigoma_opponent.index([0, drop])
+                    num = mochigoma_opponent.index(drop)
                     mochigoma_opponent.pop(num)
 
                 if turn == 0:
@@ -146,7 +153,13 @@ def main():
                 continue
         # 指し手の処理
         Origin_Suji = int(input("筋"))
+        if Origin_Suji <= 0 or Origin_Suji >= 10:
+            print("不正な指し手です。")
+            os.system("say '不正な指し手です'")
         Origin_Dan = int(input("段"))
+        if Origin_Dan <= 0 or Origin_Dan >= 10:
+            print("不正な指し手です")
+            os.system("say '不正な指し手です'")
         koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
 
         if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == turn:
@@ -171,12 +184,12 @@ def main():
                     if moved[1] == 'と' or moved[1] == '杏' or moved[1] == '圭' or moved[1] == '全' or moved[1] == '龍' or \
                             moved[1] == '馬':
                         moved[1] = get_narigoma(moved[1])
-                    mochigoma_me.append(moved)
+                    mochigoma_me.append(moved[1])
                 else:
                     if moved[1] == 'と' or moved[1] == '杏' or moved[1] == '圭' or moved[1] == '全' or moved[1] == '龍' or \
                             moved[1] == '馬':
                         moved[1] = get_narigoma(moved[1])
-                    mochigoma_opponent.append(moved)
+                    mochigoma_opponent.append(moved[1])
 
             elif moved[0] == turn:
                 print("不正な指し手です。")

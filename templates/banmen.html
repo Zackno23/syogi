@@ -1,0 +1,168 @@
+--したいこと
+--移動元をクリック > 移動先をクリック>移動元を空白にする>移動先の表示を買える
+--相手の駒(turn == 1の場合)を反転
+
+
+<style>
+INPUT {
+    width: 44px;
+    height: 44px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    display: block !important;
+    float: left !important;
+    border: none;
+    border-right: 1px solid;
+}
+
+.table_1 INPUT:last-of-type,
+.table_2 INPUT:last-of-type,
+.table_3 INPUT:last-of-type,
+.table_4 INPUT:last-of-type,
+.table_5 INPUT:last-of-type,
+.table_6 INPUT:last-of-type,
+.table_7 INPUT:last-of-type,
+.table_8 INPUT:last-of-type,
+.table_9 INPUT:last-of-type {
+    border-right: none !important;
+}
+
+
+.table {
+    width: 396px !important;
+    height    : 404px !important;
+    border: 1px solid;
+}
+
+.table_1,
+.table_2,
+.table_3,
+.table_4,
+.table_5,
+.table_6,
+.table_7,
+.table_8,
+.table_9 {
+    clear    : both;
+}
+
+.table_2,
+.table_3,
+.table_4,
+.table_5,
+.table_6,
+.table_7,
+.table_8,
+.table_9 {
+    border-top: 1px solid;
+}
+
+
+
+
+</style>
+
+<div class="table">
+    <div class=table_1>
+        <INPUT type="button" value="{{text}}" name="91"></INPUT>
+        <INPUT type="button" value="桂" name="92"></INPUT>
+        <INPUT type="button" value="銀" name="93"></INPUT>
+        <INPUT type="button" value="金" name="94"></INPUT>
+        <INPUT type="button" value="玉" name="95"></INPUT>
+        <INPUT type="button" value="金" name="96"></INPUT>
+        <INPUT type="button" value="銀" name="97"></INPUT>
+        <INPUT type="button" value="桂" name="98"></INPUT>
+        <INPUT type="button" value="香" name="99"></INPUT>
+    </div>
+    <div class=table_2>
+        <INPUT type="button" value="" name="81"></INPUT>
+        <INPUT type="button" value="角" name="82"></INPUT>
+        <INPUT type="button" value="" name="83"></INPUT>
+        <INPUT type="button" value="" name="84"></INPUT>
+        <INPUT type="button" value="" name="85"></INPUT>
+        <INPUT type="button" value="" name="86"></INPUT>
+        <INPUT type="button" value="" name="87"></INPUT>
+        <INPUT type="button" value="飛" name="88"></INPUT>
+        <INPUT type="button" value="" name="89"></INPUT>
+    </div>
+    <div class=table_3>
+        <INPUT type="button" value="歩" name="71"></INPUT>
+        <INPUT type="button" value="歩" name="72"></INPUT>
+        <INPUT type="button" value="歩" name="73"></INPUT>
+        <INPUT type="button" value="歩" name="74"></INPUT>
+        <INPUT type="button" value="歩" name="75"></INPUT>
+        <INPUT type="button" value="歩" name="76"></INPUT>
+        <INPUT type="button" value="歩" name="77"></INPUT>
+        <INPUT type="button" value="歩" name="78"></INPUT>
+        <INPUT type="button" value="歩" name="79"></INPUT>
+    </div>
+    <div class=table_4>
+        <INPUT type="button" value="" name="61"></INPUT>
+        <INPUT type="button" value="" name="62"></INPUT>
+        <INPUT type="button" value="" name="63"></INPUT>
+        <INPUT type="button" value="" name="64"></INPUT>
+        <INPUT type="button" value="" name="65"></INPUT>
+        <INPUT type="button" value="" name="66"></INPUT>
+        <INPUT type="button" value="" name="67"></INPUT>
+        <INPUT type="button" value="" name="68"></INPUT>
+        <INPUT type="button" value="" name="69"></INPUT>
+    </div>
+    <div class=table_5>
+        <INPUT type="button" value="" name="51"></INPUT>
+        <INPUT type="button" value="" name="52"></INPUT>
+        <INPUT type="button" value="" name="53"></INPUT>
+        <INPUT type="button" value="" name="54"></INPUT>
+        <INPUT type="button" value="" name="55"></INPUT>
+        <INPUT type="button" value="" name="56"></INPUT>
+        <INPUT type="button" value="" name="57"></INPUT>
+        <INPUT type="button" value="" name="58"></INPUT>
+        <INPUT type="button" value="" name="59"></INPUT>
+    </div>
+    <div class=table_6>
+        <INPUT type="button" value="" name="61"></INPUT>
+        <INPUT type="button" value="" name="62"></INPUT>
+        <INPUT type="button" value="" name="63"></INPUT>
+        <INPUT type="button" value="" name="64"></INPUT>
+        <INPUT type="button" value="" name="65"></INPUT>
+        <INPUT type="button" value="" name="66"></INPUT>
+        <INPUT type="button" value="" name="67"></INPUT>
+        <INPUT type="button" value="" name="68"></INPUT>
+        <INPUT type="button" value="" name="69"></INPUT>
+    </div>
+    <div class=table_7>
+        <INPUT type="button" value="歩" name="71"></INPUT>
+        <INPUT type="button" value="歩" name="72"></INPUT>
+        <INPUT type="button" value="歩" name="73"></INPUT>
+        <INPUT type="button" value="歩" name="74"></INPUT>
+        <INPUT type="button" value="歩" name="75"></INPUT>
+        <INPUT type="button" value="歩" name="76"></INPUT>
+        <INPUT type="button" value="歩" name="77"></INPUT>
+        <INPUT type="button" value="歩" name="78"></INPUT>
+        <INPUT type="button" value="歩" name="79"></INPUT>
+    </div>
+    <div class=table_8>
+        <INPUT type="button" value="" name="81"></INPUT>
+        <INPUT type="button" value="飛" name="82"></INPUT>
+        <INPUT type="button" value="" name="83"></INPUT>
+        <INPUT type="button" value="" name="84"></INPUT>
+        <INPUT type="button" value="" name="85"></INPUT>
+        <INPUT type="button" value="" name="86"></INPUT>
+        <INPUT type="button" value="" name="87"></INPUT>
+        <INPUT type="button" value="角" name="88"></INPUT>
+        <INPUT type="button" value="" name="89"></INPUT>
+    </div>
+    <div class=table_9>
+        <INPUT type="button" value="香" name="91"></INPUT>
+        <INPUT type="button" value="桂" name="92"></INPUT>
+        <INPUT type="button" value="銀" name="93"></INPUT>
+        <INPUT type="button" value="金" name="94"></INPUT>
+        <INPUT type="button" value="玉" name="95"></INPUT>
+        <INPUT type="button" value="金" name="96"></INPUT>
+        <INPUT type="button" value="銀" name="97"></INPUT>
+        <INPUT type="button" value="桂" name="98"></INPUT>
+        <INPUT type="button" value="香" name="99"></INPUT>
+
+    </div>
+</div>

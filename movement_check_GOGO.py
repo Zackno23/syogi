@@ -1,4 +1,4 @@
-class Judgement:
+class Judgement_gogo:
     def movelist_FU(self, sengo, suji, dan, koma):
         if sengo == 0:
             if dan > 1:
@@ -6,9 +6,9 @@ class Judgement:
             elif dan == 1:
                 return []
         elif sengo == 1:
-            if dan < 9:
+            if dan < 5:
                 return [[suji, dan + 1, koma]]
-            elif dan == 9:
+            elif dan == 5:
                 return []
 
     def movelist_kyo(self, sengo, suji, dan, koma, sente_list, gote_list):
@@ -16,18 +16,18 @@ class Judgement:
         if sengo == 0:
             if dan != 1:
                 for i in range(dan - 1):
-                    if [suji, 8 - i] in sente_list:
+                    if [suji, 4 - i] in sente_list:
                         break
-                    elif [suji, 8 - 1] in gote_list:
-                        valid_list.append([suji, 8 - i, koma])
+                    elif [suji, 4 - 1] in gote_list:
+                        valid_list.append([suji, 4 - i, koma])
                         break
                     else:
-                        valid_list.append([suji, 8 - i, koma])
+                        valid_list.append([suji, 4 - i, koma])
             else:
                 return []
         elif sengo == 1:
-            if dan != 9:
-                for i in range(8 - dan):
+            if dan != 5:
+                for i in range(4 - dan):
                     if [suji, dan + 1 + i] in sente_list:
                         valid_list.append([[suji, dan + 1 + i], koma])
                     elif [suji, dan + 1 + i] in gote_list:
@@ -44,16 +44,16 @@ class Judgement:
                 return []
             if suji == 1:
                 return [[suji + 1, dan - 2, koma]]
-            elif suji == 9:
+            elif suji == 5:
                 return [[suji - 1, dan - 2, koma]]
             else:
                 return [[suji - 1, dan - 2, koma], [suji + 1, dan - 2, koma]]
         elif sengo == 1:
-            if dan == 8 or dan == 9:
+            if dan == 4 or dan == 5:
                 return []
             if suji == 1:
                 return [[suji + 1, dan + +2, koma]]
-            elif suji == 9:
+            elif suji == 5:
                 return [[suji - 1, dan + 2, koma]]
             else:
                 return [[suji + 1, dan + 2, koma], [suji - 1, dan + 2, koma]]
@@ -75,7 +75,7 @@ class Judgement:
         valid_list = []
         for x in gin_list:
 
-            no_ten = 10 not in x
+            no_ten = 6 not in x
             no_zero = 0 not in x
 
             if no_ten and no_zero:
@@ -100,18 +100,19 @@ class Judgement:
                         [suji - 1, dan + 1, koma]]
         valid_list = []
         for x in kin_list:
-            no_ten = 10 not in x
+            no_ten = 6 not in x
             no_zero = 0 not in x
 
             if no_ten and no_zero:
                 valid_list.append(x)
 
         return valid_list
+
     def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         kaku_suji = suji
         kaku_dan = dan
-        while (1 <= kaku_suji <= 9) and (1 <= kaku_dan <= 9):
+        while (1 <= kaku_suji <= 5) and (1 <= kaku_dan <= 5):
             if kaku_suji == 1 or kaku_dan == 1:
                 break
             if sengo == 0:
@@ -136,8 +137,8 @@ class Judgement:
         kaku_suji = suji
         kaku_dan = dan
 
-        while (1 <= kaku_suji <= 9) and (1 <= kaku_dan <= 9):
-            if kaku_suji == 9 or kaku_dan == 1:
+        while (1 <= kaku_suji <= 5) and (1 <= kaku_dan <= 5):
+            if kaku_suji == 5 or kaku_dan == 1:
                 break
             if sengo == 0:
                 if [kaku_suji + 1, kaku_dan - 1] in sente_list:
@@ -160,8 +161,8 @@ class Judgement:
             kaku_dan = kaku_dan - 1
         kaku_suji = suji
         kaku_dan = dan
-        while (1 <= kaku_suji <= 9) and (1 <= kaku_dan <= 9):
-            if kaku_suji == 9 or kaku_dan == 9:
+        while (1 <= kaku_suji <= 5) and (1 <= kaku_dan <= 5):
+            if kaku_suji == 5 or kaku_dan == 5:
                 break
             if sengo == 0:
                 if [kaku_suji + 1, kaku_dan + 1] in sente_list:
@@ -184,8 +185,8 @@ class Judgement:
             kaku_dan = kaku_dan + 1
         kaku_suji = suji
         kaku_dan = dan
-        while (1 <= kaku_suji <= 9) and (1 <= kaku_dan <= 9):
-            if kaku_suji == 1 or kaku_dan == 9:
+        while (1 <= kaku_suji <= 5) and (1 <= kaku_dan <= 5):
+            if kaku_suji == 1 or kaku_dan == 5:
                 break
             if sengo == 0:
                 if [kaku_suji - 1, kaku_dan + 1] in sente_list:
@@ -214,7 +215,7 @@ class Judgement:
         hisya_suji = suji
         hisya_dan = dan
 
-        while (1 <= hisya_suji <= 9) and (1 <= hisya_dan <= 9):
+        while (1 <= hisya_suji <= 5) and (1 <= hisya_dan <= 5):
             if hisya_suji == 1:
                 break
             if sengo == 0:
@@ -239,7 +240,7 @@ class Judgement:
         hisya_suji = suji
         hisya_dan = dan
 
-        while (1 <= hisya_suji <= 9) and (1 <= hisya_dan <= 9):
+        while (1 <= hisya_suji <= 5) and (1 <= hisya_dan <= 5):
             if hisya_dan == 1:
                 break
             if sengo == 0:
@@ -262,8 +263,8 @@ class Judgement:
             hisya_dan = hisya_dan - 1
         hisya_suji = suji
         hisya_dan = dan
-        while (1 <= hisya_suji <= 9) and (1 <= hisya_dan <= 9):
-            if hisya_suji == 9:
+        while (1 <= hisya_suji <= 5) and (1 <= hisya_dan <= 5):
+            if hisya_suji == 5:
                 break
             if sengo == 0:
                 if [hisya_suji + 1, hisya_dan] in sente_list:
@@ -285,8 +286,8 @@ class Judgement:
             hisya_suji = hisya_suji + 1
         hisya_suji = suji
         hisya_dan = dan
-        while (1 <= hisya_suji <= 9) and (1 <= hisya_dan <= 9):
-            if hisya_dan == 9:
+        while (1 <= hisya_suji <= 5) and (1 <= hisya_dan <= 5):
+            if hisya_dan == 5:
                 break
             if sengo == 0:
                 if [hisya_suji, hisya_dan + 1] in sente_list:
@@ -331,8 +332,8 @@ class Judgement:
         valid_list = []
         uma_suji = suji
         uma_dan = dan
-        while (1 <= uma_suji <= 9) and (1 <= uma_dan <= 9):
-            if uma_suji == 1 or uma_dan == 9:
+        while (1 <= uma_suji <= 5) and (1 <= uma_dan <= 5):
+            if uma_suji == 1 or uma_dan == 5:
                 break
             if sengo == 0:
                 if [uma_suji - 1, uma_dan - 1] in sente_list:
@@ -356,8 +357,8 @@ class Judgement:
         uma_suji = suji
         uma_dan = dan
 
-        while (1 <= uma_suji <= 9) and (1 <= uma_dan <= 9):
-            if uma_suji == 9 or uma_suji == 1:
+        while (1 <= uma_suji <= 5) and (1 <= uma_dan <= 5):
+            if uma_suji == 5 or uma_suji == 1:
                 break
             if sengo == 0:
                 if [uma_suji + 1, uma_dan - 1] in sente_list:
@@ -380,8 +381,8 @@ class Judgement:
             uma_dan = uma_dan - 1
         uma_suji = suji
         uma_dan = dan
-        while (1 <= uma_suji <= 9) and (1 <= uma_dan <= 9):
-            if uma_suji == 9 or uma_dan == 9:
+        while (1 <= uma_suji <= 5) and (1 <= uma_dan <= 5):
+            if uma_suji == 5 or uma_dan == 5:
                 break
             if sengo == 0:
                 if [uma_suji + 1, uma_dan + 1] in sente_list:
@@ -404,8 +405,8 @@ class Judgement:
             uma_dan = uma_dan + 1
         uma_suji = suji
         uma_dan = dan
-        while (1 <= uma_suji <= 9) and (1 <= uma_dan <= 9):
-            if uma_suji == 1 or uma_dan == 9:
+        while (1 <= uma_suji <= 5) and (1 <= uma_dan <= 5):
+            if uma_suji == 1 or uma_dan == 5:
                 break
             if sengo == 0:
                 if [uma_suji - 1, uma_dan + 1] in sente_list:
@@ -441,7 +442,7 @@ class Judgement:
         valid_list = []
         ryu_suji = suji
         ryu_dan = dan
-        while (1 <= ryu_suji <= 9) and (1 <= ryu_dan <= 9):
+        while (1 <= ryu_suji <= 5) and (1 <= ryu_dan <= 5):
             if sengo == 0:
                 if ryu_suji == 1:
                     break
@@ -464,7 +465,7 @@ class Judgement:
             ryu_suji = ryu_suji - 1
         ryu_suji = suji
         ryu_dan = dan
-        while (1 <= ryu_suji <= 9) and (1 <= ryu_dan <= 9):
+        while (1 <= ryu_suji <= 5) and (1 <= ryu_dan <= 5):
             if ryu_dan == 1:
                 break
             if sengo == 0:
@@ -487,8 +488,8 @@ class Judgement:
             ryu_suji = ryu_suji - 1
         ryu_suji = suji
         ryu_dan = dan
-        while (1 <= ryu_suji <= 9) and (1 <= ryu_dan <= 9):
-            if ryu_suji == 9:
+        while (1 <= ryu_suji <= 5) and (1 <= ryu_dan <= 5):
+            if ryu_suji == 5:
                 break
             if sengo == 0:
                 if [ryu_suji + 1, ryu_dan] in sente_list:
@@ -510,8 +511,8 @@ class Judgement:
             ryu_suji = ryu_suji + 1
         ryu_suji = suji
         ryu_dan = dan
-        while (1 <= ryu_suji <= 9) and (1 <= ryu_dan <= 9):
-            if ryu_dan == 9:
+        while (1 <= ryu_suji <= 5) and (1 <= ryu_dan <= 5):
+            if ryu_dan == 5:
                 break
             if sengo == 0:
                 if [ryu_suji, ryu_dan + 1] in sente_list:

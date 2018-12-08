@@ -5,21 +5,16 @@ import time
 import pygame
 from mutagen.mp3 import MP3 as mp3
 
-from movement_check import Judgement
+from movement_check_GOGO import Judgement_gogo
 from nari import get_narigoma, narigoma
 
-#   初形
-dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
-dan1 = [[2, '＊'], [1, '飛'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [1, '角'], [2, '＊']]
-dan2 = [[1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩']]
-dan3 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan4 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan5 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan6 = [[0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩']]
-dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊']]
-dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
+dan0 = [[1, '飛'], [1, '角'], [1, '銀'], [1, '金'], [1, "玉"]]
+dan1 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [1, '歩']]
+dan2 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
+dan3 = [[0, '歩'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
+dan4 = [[0, '玉'], [0, '金'], [0, '銀'], [0, '角'], [0, '飛']]
 
-shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
+shogiban = [dan0, dan1, dan2, dan3, dan4]
 mochigoma_opponent = []
 mochigoma_me = []
 
@@ -51,52 +46,52 @@ def display(board):
 # 駒を判別し、movement_checkから動けるところリストを引っ張ってくる
 def pieces(turn, suji, dan, koma, sente_list, gote_list):
     if koma == "歩":
-        fu = Judgement()
+        fu = Judgement_gogo()
         area = fu.movelist_FU(turn, suji, dan, koma)
         return area
 
     if koma == "香":
-        kyo = Judgement()
+        kyo = Judgement_gogo()
         area = kyo.movelist_kyo(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
     if koma == "桂":
-        keima = Judgement()
+        keima = Judgement_gogo()
         area = keima.movelist_kei(turn, suji, dan, koma)
         return area
 
     if koma == "銀":
-        gin = Judgement()
+        gin = Judgement_gogo()
         area = gin.movelist_gin(turn, suji, dan, koma)
         return area
 
     if koma == "金" or koma == 'と' or koma == '杏' or koma == '圭' or koma == '全':
-        kin = Judgement()
+        kin = Judgement_gogo()
         area = kin.movelist_kin(turn, suji, dan, koma)
         return area
 
     if koma == "飛":
-        hisya = Judgement()
+        hisya = Judgement_gogo()
         area = hisya.movelist_HISYA(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
     if koma == "角":
-        kaku = Judgement()
+        kaku = Judgement_gogo()
         area = kaku.movelist_KAKU(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
     if koma == "玉":
-        gyoku = Judgement()
+        gyoku = Judgement_gogo()
         area = gyoku.movelist_GYOKU(turn, suji, dan, koma)
         return area
 
     if koma == "馬":
-        uma = Judgement()
+        uma = Judgement_gogo()
         area = uma.movelist_UMA(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
     if koma == "龍":
-        ryu = Judgement()
+        ryu = Judgement_gogo()
         area = ryu.movelist_RYU(turn, suji, dan, koma, sente_list, gote_list)
         return area
 
@@ -114,18 +109,18 @@ def main():
                     print("移動先")
                     goal_Suji = int(input("筋"))
                     goal_Dan = int(input("段"))
-                    if shogiban[goal_Dan - 1][9 - goal_Suji] != [2, "＊"]:
-                        print("不正な指し手です")
+                    if shogiban[goal_Dan - 1][5 - goal_Suji] != [2, "＊"]:
+                        print("不正な指し手ですよ")
                         os.system("say '不正な指し手です'")
                         continue
 
                     if drop not in mochigoma_me:
-                        print("不正な指し手です")
+                        print("不正な指し手ですyo")
                         os.system("say '不正な指し手です'")
                         continue
                     sente_piece_list.append([goal_Suji, goal_Dan])
                     empty_piece_list.remove([goal_Suji, goal_Dan])
-                    shogiban[goal_Dan - 1][9 - goal_Suji] = [turn, drop]
+                    shogiban[goal_Dan - 1][5 - goal_Suji] = [turn, drop]
                     num = mochigoma_me.index(drop)
                     mochigoma_me.pop(num)
 
@@ -135,29 +130,34 @@ def main():
                     continue
             # 指し手の処理
             Origin_Suji = int(input("筋"))
-            if Origin_Suji <= 0 or Origin_Suji >= 10:
+            if Origin_Suji <= 0 or Origin_Suji >= 6:
                 print("不正な指し手です。")
                 os.system("say '不正な指し手です'")
             Origin_Dan = int(input("段"))
-            if Origin_Dan <= 0 or Origin_Dan >= 10:
+            if Origin_Dan <= 0 or Origin_Dan >= 6:
                 print("不正な指し手です")
                 os.system("say '不正な指し手です'")
-            koma = shogiban[Origin_Dan - 1][9 - Origin_Suji]
+            koma = shogiban[Origin_Dan - 1][5 - Origin_Suji]
 
-            if shogiban[Origin_Dan - 1][9 - Origin_Suji][0] == turn:
+            if shogiban[Origin_Dan - 1][5 - Origin_Suji][0] == turn:
                 print("移動先")
                 goal_Suji = int(input("筋"))
                 goal_Dan = int(input("段"))
-                moved = shogiban[goal_Dan - 1][9 - goal_Suji]
-                if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1],
+                moved = shogiban[goal_Dan - 1][5 - goal_Suji]
+                print(pieces(turn, Origin_Suji,
+                             Origin_Dan, koma[1],
+                             sente_piece_list,
+                             gote_piece_list))
+                if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji,
+                                                                Origin_Dan, koma[1],
                                                                 sente_piece_list,
                                                                 gote_piece_list):
-                    print("不正な指し手です。")
+                    print("不正な指し手ですが。")
                     os.system("say '不正な指し手です'")
                     continue
 
                 elif moved[0] != turn and moved[0] != 2:
-                    moved = shogiban[goal_Dan - 1][9 - goal_Suji]
+                    moved = shogiban[goal_Dan - 1][5 - goal_Suji]
                     moved[0] = turn
                     if moved[1] == "玉":
                         os.system("say '負けました'")
@@ -171,12 +171,12 @@ def main():
                     gote_piece_list.remove([goal_Suji, goal_Dan])
 
                 elif moved[0] == turn:
-                    print("不正な指し手です。")
+                    print("不正な指し手ですし。")
                     os.system("say '不正な指し手です'")
                     continue
                 if (koma[1] == '歩' or koma[1] == '香' or koma[1] == '桂' or koma[1] == '銀' or koma[1] == '飛' or koma[
                     1] == '角'):
-                    if goal_Dan <= 3:
+                    if goal_Dan == 1:
                         narunaranai = input("成りますか?(y/n)")
                         if narunaranai.lower() == 'y':
                             koma[1] = narigoma(koma[1])
@@ -185,12 +185,12 @@ def main():
                 if moved[0] == 2:
                     empty_piece_list.remove([goal_Suji, goal_Dan])
                 empty_piece_list.append([Origin_Suji, Origin_Dan])
-                shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
-                shogiban[goal_Dan - 1][9 - goal_Suji] = koma
+                shogiban[Origin_Dan - 1][5 - Origin_Suji] = [2, '＊']
+                shogiban[goal_Dan - 1][5 - goal_Suji] = koma
                 turn = 1
 
             else:
-                print("不正な指し手です。")
+                print("不正な指し手ですyo。")
                 os.system("say '不正な指し手です'")
 
                 continue
@@ -206,19 +206,19 @@ def main():
             if gote_choice == mochigoma_opponent:
                 gote_drop_piece = random.choice(mochigoma_opponent)
                 gote_drop_place = random.choice(empty_piece_list)
-                shogiban[gote_drop_place[1] - 1][9 - gote_drop_place[0]] = [turn, gote_drop_piece]
+                shogiban[gote_drop_place[1] - 1][5 - gote_drop_place[0]] = [turn, gote_drop_piece]
                 num = mochigoma_opponent.index(gote_drop_piece)
                 mochigoma_opponent.pop(num)
                 gote_piece_list.append(gote_drop_place)
                 empty_piece_list.remove(gote_drop_place)
 
             else:
-                chozen_koma = shogiban[gote_choice[1] - 1][9 - gote_choice[0]]
+                chozen_koma = shogiban[gote_choice[1] - 1][5 - gote_choice[0]]
                 print(gote_choice)
                 print(pieces(turn, gote_choice[0], gote_choice[1], chozen_koma[1], sente_piece_list, gote_piece_list))
                 gote_move = random.choice(
                     pieces(turn, gote_choice[0], gote_choice[1], chozen_koma[1], sente_piece_list, gote_piece_list))
-                moved = shogiban[gote_move[1] - 1][9 - gote_move[0]]
+                moved = shogiban[gote_move[1] - 1][5 - gote_move[0]]
                 if moved[0] == 1:
                     continue
                 if moved[1] == "玉":
@@ -236,7 +236,7 @@ def main():
                 if (chozen_koma[1] == '歩' or chozen_koma[1] == '香' or chozen_koma[1] == '桂' or chozen_koma[1] == '銀' or
                         chozen_koma[1] == '飛' or chozen_koma[
                             1] == '角'):
-                    if gote_move[1] >= 7:
+                    if gote_move[1] == 5:
                         chozen_koma[1] = narigoma(chozen_koma[1])
                 # 駒の移動
                 gote_piece_list.remove([gote_choice[0], gote_choice[1]])
@@ -245,8 +245,8 @@ def main():
                     empty_piece_list.remove([gote_move[0], gote_move[1]])
                 empty_piece_list.append([gote_choice[0], gote_choice[1]])
 
-                shogiban[gote_choice[1] - 1][9 - gote_choice[0]] = [2, '＊']
-                shogiban[gote_move[1] - 1][9 - gote_move[0]] = chozen_koma
+                shogiban[gote_choice[1] - 1][5 - gote_choice[0]] = [2, '＊']
+                shogiban[gote_move[1] - 1][5 - gote_move[0]] = chozen_koma
                 turn = 0
                 display(shogiban)
                 playsound()
@@ -263,11 +263,11 @@ if __name__ == "__main__":
     for a in range(len(shogiban)):
         for b in range(len(shogiban[a])):
             if shogiban[a][b][0] == 0:
-                sente_piece_list.append([9 - b, a + 1])
+                sente_piece_list.append([5 - b, a + 1])
             elif shogiban[a][b][0] == 1:
-                gote_piece_list.append([9 - b, a + 1])
+                gote_piece_list.append([5 - b, a + 1])
             elif shogiban[a][b][0] == 2:
-                empty_piece_list.append([9 - b, a + 1])
+                empty_piece_list.append([5 - b, a + 1])
     display(shogiban)
 
     # r = sr.Recognizer()

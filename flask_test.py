@@ -11,4 +11,4 @@ def bottun_FU(x):
 
 
 bottun_FU("歩")
-app.run(debug=True)
+# app.run(debug=True)

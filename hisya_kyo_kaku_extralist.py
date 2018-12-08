@@ -1,17 +1,5 @@
-class Judgement:
-    def movelist_FU(self, sengo, suji, dan, koma):
-        if sengo == 0:
-            if dan > 1:
-                return [[suji, dan - 1, koma]]
-            elif dan == 1:
-                return []
-        elif sengo == 1:
-            if dan < 9:
-                return [[suji, dan + 1, koma]]
-            elif dan == 9:
-                return []
-
-    def movelist_kyo(self, sengo, suji, dan, koma, sente_list, gote_list):
+class Extralist:
+    def kyo_extralist(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
         valid_list = []
         if sengo == 0:
             if dan != 1:
@@ -38,76 +26,7 @@ class Judgement:
                 return []
         return valid_list
 
-    def movelist_kei(self, sengo, suji, dan, koma):
-        if sengo == 0:
-            if dan == 1 or dan == 2:
-                return []
-            if suji == 1:
-                return [[suji + 1, dan - 2, koma]]
-            elif suji == 9:
-                return [[suji - 1, dan - 2, koma]]
-            else:
-                return [[suji - 1, dan - 2, koma], [suji + 1, dan - 2, koma]]
-        elif sengo == 1:
-            if dan == 8 or dan == 9:
-                return []
-            if suji == 1:
-                return [[suji + 1, dan + +2, koma]]
-            elif suji == 9:
-                return [[suji - 1, dan + 2, koma]]
-            else:
-                return [[suji + 1, dan + 2, koma], [suji - 1, dan + 2, koma]]
-
-    def movelist_gin(self, sengo, suji, dan, koma):
-        if sengo == 0:
-            gin_list = [[suji + 1, dan - 1, koma],
-                        [suji, dan - 1, koma],
-                        [suji - 1, dan - 1, koma],
-                        [suji + 1, dan + 1, koma],
-                        [suji - 1, dan + 1, koma]]
-        elif sengo == 1:
-            gin_list = [[suji + 1, dan - 1, koma],
-                        [suji - 1, dan - 1, koma],
-                        [suji + 1, dan + 1, koma],
-                        [suji, dan + 1, koma],
-                        [suji - 1, dan + 1, koma]]
-
-        valid_list = []
-        for x in gin_list:
-
-            no_ten = 10 not in x
-            no_zero = 0 not in x
-
-            if no_ten and no_zero:
-                valid_list.append(x)
-
-        return valid_list
-
-    def movelist_kin(self, sengo, suji, dan, koma):
-        if sengo == 0:
-            kin_list = [[suji + 1, dan - 1, koma],
-                        [suji, dan - 1, koma],
-                        [suji - 1, dan - 1, koma],
-                        [suji + 1, dan, koma],
-                        [suji - 1, dan, koma],
-                        [suji, dan + 1, koma]]
-        elif sengo == 1:
-            kin_list = [[suji, dan - 1, koma],
-                        [suji + 1, dan, koma],
-                        [suji - 1, dan, koma],
-                        [suji + 1, dan + 1, koma],
-                        [suji, dan + 1, koma],
-                        [suji - 1, dan + 1, koma]]
-        valid_list = []
-        for x in kin_list:
-            no_ten = 10 not in x
-            no_zero = 0 not in x
-
-            if no_ten and no_zero:
-                valid_list.append(x)
-
-        return valid_list
-    def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list):
+    def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
         valid_list = []
         kaku_suji = suji
         kaku_dan = dan
@@ -209,7 +128,7 @@ class Judgement:
 
         return valid_list
 
-    def movelist_HISYA(self, sengo, suji, dan, koma, sente_list, gote_list):
+    def movelist_HISYA(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
         valid_list = []
         hisya_suji = suji
         hisya_dan = dan
@@ -308,26 +227,7 @@ class Judgement:
             hisya_dan = hisya_dan + 1
         return valid_list
 
-    def movelist_GYOKU(self, sengo, suji, dan, koma):
-        gyoku_list = [[suji + 1, dan - 1, '玉'],
-                      [suji, dan - 1, '玉'],
-                      [suji - 1, dan - 1, '玉'],
-                      [suji + 1, dan, '玉'],
-                      [suji - 1, dan, '玉'],
-                      [suji + 1, dan + 1, "玉"],
-                      [suji, dan + 1, '玉'],
-                      [suji - 1, dan + 1, "玉"]]
-        valid_list = []
-        for x in gyoku_list:
-            no_ten = 6 not in x
-            no_zero = 0 not in x
-
-            if no_ten and no_zero:
-                valid_list.append(x)
-
-        return valid_list
-
-    def movelist_UMA(self, sengo, suji, dan, koma, sente_list, gote_list):
+    def movelist_UMA(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
         valid_list = []
         uma_suji = suji
         uma_dan = dan
@@ -437,7 +337,7 @@ class Judgement:
 
         return valid_list
 
-    def movelist_RYU(self, sengo, suji, dan, koma, sente_list, gote_list):
+    def movelist_RYU(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
         valid_list = []
         ryu_suji = suji
         ryu_dan = dan

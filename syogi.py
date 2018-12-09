@@ -3,6 +3,7 @@ import random
 import time
 
 import pygame
+import speech_recognition as sr
 from mutagen.mp3 import MP3 as mp3
 
 from hisya_kyo_kaku_extralist import Extralist
@@ -236,8 +237,7 @@ def main():
                 shogiban[goal_Dan - 1][9 - goal_Suji] = koma
                 motokoma = koma
                 sashite_movement_lists = pieces(0, goal_Suji, goal_Dan, koma[1], sente_piece_list, gote_piece_list)
-                print("ugoitasaki", pieces(0, goal_Suji, goal_Dan, koma[1], sente_piece_list, gote_piece_list))
-                print(koma[1])
+
 
                 if koma[1] == "飛":
                     sente_hisya_list.remove([Origin_Suji, Origin_Dan])
@@ -309,11 +309,17 @@ def main():
         elif turn == 1:
             if oute == True:
                 if len(gotegyoku_mawalist) == 0:
-                    if [goal_Suji, goal_Dan] in pieces(1, gotegyoku_address[0], gotegyoku_address[1], '玉',
+                    print(pieces(1, gotegyoku_address[0], gotegyoku_address[1], '玉',
+                                 sente_piece_list, gote_piece_list))
+                    if [goal_Suji, goal_Dan, "玉"] in pieces(1, gotegyoku_address[0], gotegyoku_address[1], '玉',
                                                        sente_piece_list, gote_piece_list):
                         shogiban[goal_Dan - 1][9 - goal_Suji] = [1, "玉"]
-                        gotegyoku_address = [2, "＊"]
+                        shogiban[gotegyoku_address[1] - 1][9 - gotegyoku_address[0]] = [2, "＊"]
+                        mochigoma_opponent.append(koma[1])
                         gotegyoku_address = [goal_Suji, goal_Dan]
+                        gote_piece_list.append(gotegyoku_address)
+                        display(shogiban)
+                        playsound()
                         turn = 0
                         continue
                     else:
@@ -382,9 +388,7 @@ def main():
 
                 else:
                     chozen_koma = shogiban[gote_choice[1] - 1][9 - gote_choice[0]]
-                    print(gote_choice)
-                    print(
-                        pieces(turn, gote_choice[0], gote_choice[1], chozen_koma[1], sente_piece_list, gote_piece_list))
+
                     if len(pieces(turn, gote_choice[0], gote_choice[1], chozen_koma[1], sente_piece_list,
                                   gote_piece_list)) == 0:
                         continue

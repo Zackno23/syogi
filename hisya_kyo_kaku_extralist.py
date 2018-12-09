@@ -1,5 +1,5 @@
 class Extralist:
-    def kyo_extralist(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
+    def kyo_extralist(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         if sengo == 0:
             if dan != 1:
@@ -13,20 +13,10 @@ class Extralist:
                         valid_list.append([suji, 8 - i, koma])
             else:
                 return []
-        elif sengo == 1:
-            if dan != 9:
-                for i in range(8 - dan):
-                    if [suji, dan + 1 + i] in sente_list:
-                        valid_list.append([[suji, dan + 1 + i], koma])
-                    elif [suji, dan + 1 + i] in gote_list:
-                        break
-                    else:
-                        valid_list.append([suji, dan + 1 + i, koma])
-            else:
-                return []
+
         return valid_list
 
-    def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
+    def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         kaku_suji = suji
         kaku_dan = dan
@@ -128,7 +118,7 @@ class Extralist:
 
         return valid_list
 
-    def movelist_HISYA(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
+    def movelist_HISYA(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         hisya_suji = suji
         hisya_dan = dan
@@ -227,7 +217,7 @@ class Extralist:
             hisya_dan = hisya_dan + 1
         return valid_list
 
-    def movelist_UMA(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
+    def movelist_UMA(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         uma_suji = suji
         uma_dan = dan
@@ -337,7 +327,7 @@ class Extralist:
 
         return valid_list
 
-    def movelist_RYU(self, sengo, suji, dan, koma, sente_list, gote_list, gyoku_address):
+    def movelist_RYU(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         ryu_suji = suji
         ryu_dan = dan

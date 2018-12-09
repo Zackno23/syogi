@@ -5,6 +5,7 @@ import time
 import pygame
 from mutagen.mp3 import MP3 as mp3
 
+from hisya_kyo_kaku_extralist import Extralist
 from movement_check import Judgement
 from nari import get_narigoma, narigoma
 
@@ -14,7 +15,7 @@ dan1 = [[2, '＊'], [1, '飛'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], 
 dan2 = [[1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩']]
 dan3 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
 dan4 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan5 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
+dan5 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
 dan6 = [[0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩']]
 dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊']]
 dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
@@ -38,13 +39,13 @@ def playsound():
 # 盤面の表示
 def display(board):
     if len(mochigoma_opponent) > 0:
-        print(mochigoma_opponent)
+        print("後手の持駒リスト", mochigoma_opponent)
     for dan in range(len(board)):
         for i in board[dan]:
             print(i[1], end="")
         print("")
     if len(mochigoma_me) > 0:
-        print(mochigoma_me)
+        print("先手の持駒リスト", mochigoma_me)
     print("")
 
 
@@ -110,6 +111,11 @@ def main():
     gotegyoku = Judgement()
     gotegyoku_mawalist = gotegyoku.movelist_GYOKU(1, 5, 1, "玉")
     gotegyoku_address = [5, 1]
+    sente_hisya_list = [[2, 8]]
+    sente_kyo_list = [[1, 9], [9, 9]]
+    sente_kaku_list = [[8, 8]]
+    sente_ryu_list = []
+    sente_uma_list = []
     for a in range(len(shogiban)):
         for b in range(len(shogiban[a])):
             if shogiban[a][b][0] == 0:
@@ -144,6 +150,16 @@ def main():
                     shogiban[goal_Dan - 1][9 - goal_Suji] = [turn, drop]
                     num = mochigoma_me.index(drop)
                     mochigoma_me.pop(num)
+                    if drop == "香":
+                        sente_kyo_list.append([goal_Suji, goal_Dan])
+                    elif drop == "飛":
+                        sente_hisya_list.append([goal_Suji, goal_Dan])
+                    elif drop == "角":
+                        sente_kaku_list.append([goal_Suji, goal_Dan])
+                    elif drop == "龍":
+                        sente_ryu_list.append([goal_Suji, goal_Dan])
+                    elif drop == "馬":
+                        sente_uma_list.append([goal_Suji, goal_Dan])
                     # mawalistに指した駒の動ける範囲リストがかぶっていたらそれをリスト化
                     sashite_movement_lists = pieces(0, goal_Suji, goal_Dan, drop, sente_piece_list, gote_piece_list)
                     for sashite_movement in sashite_movement_lists:
@@ -203,6 +219,14 @@ def main():
                         narunaranai = input("成りますか?(y/n)")
                         if narunaranai.lower() == 'y':
                             koma[1] = narigoma(koma[1])
+                            if koma[1] == "龍":
+                                sente_hisya_list.remove([Origin_Suji, Origin_Dan])
+                                sente_ryu_list.append([goal_Suji, goal_Dan])
+                            if koma[1] == "馬":
+                                sente_kaku_list.remove([Origin_Suji, Origin_Dan])
+                                sente_uma_list.append([goal_Suji, goal_Dan])
+                            if koma[1] == "杏":
+                                sente_kyo_list.remove([Origin_Suji, Origin_Dan])
                 sente_piece_list.append([goal_Suji, goal_Dan])
                 sente_piece_list.remove([Origin_Suji, Origin_Dan])
                 if moved[0] == 2:
@@ -210,18 +234,67 @@ def main():
                 empty_piece_list.append([Origin_Suji, Origin_Dan])
                 shogiban[Origin_Dan - 1][9 - Origin_Suji] = [2, '＊']
                 shogiban[goal_Dan - 1][9 - goal_Suji] = koma
-
+                motokoma = koma
                 sashite_movement_lists = pieces(0, goal_Suji, goal_Dan, koma[1], sente_piece_list, gote_piece_list)
                 print("ugoitasaki", pieces(0, goal_Suji, goal_Dan, koma[1], sente_piece_list, gote_piece_list))
                 print(koma[1])
 
+                if koma[1] == "飛":
+                    sente_hisya_list.remove([Origin_Suji, Origin_Dan])
+                    sente_hisya_list.append([goal_Suji, goal_Dan])
+                if koma[1] == "角":
+                    sente_kaku_list.remove([Origin_Suji, Origin_Dan])
+                    sente_kaku_list.append([goal_Suji, goal_Dan])
+                if koma[1] == "香":
+                    sente_hisya_list.remove([Origin_Suji, Origin_Dan])
+                    sente_hisya_list.append([goal_Suji, goal_Dan])
+                if koma[1] == "龍" and motokoma == "龍":
+                    sente_ryu_list.remove([Origin_Suji, Origin_Dan])
+                    sente_ryu_list.append([goal_Suji, goal_Dan])
+                if koma[1] == "馬" and motokoma == "馬":
+                    sente_uma_list.remove([Origin_Suji, Origin_Dan])
+                    sente_uma_list.append([goal_Suji, goal_Dan])
+
+                extra = Extralist()
+                gote_piece_list.remove(gotegyoku_address)
+                for hisya in sente_hisya_list:
+                    if len(extra.movelist_HISYA(0, hisya[0], hisya[1], '飛', sente_piece_list, gote_piece_list)) == 0:
+                        pass
+                    else:
+                        for extras in extra.movelist_HISYA(0, hisya[0], hisya[1], '飛', sente_piece_list,
+                                                           gote_piece_list):
+                            sashite_movement_lists.append(extras)
+                for kaku in sente_kaku_list:
+                    if len(extra.movelist_KAKU(0, kaku[0], kaku[1], '角', sente_piece_list, gote_piece_list)) == 0:
+                        pass
+                    else:
+                        for extras in extra.movelist_KAKU(0, kaku[0], kaku[1], '飛', sente_piece_list, gote_piece_list):
+                            sashite_movement_lists.append(extras)
+                for kyo in sente_kyo_list:
+                    if len(extra.kyo_extralist(0, kyo[0], kyo[1], '香', sente_piece_list, gote_piece_list)) == 0:
+                        pass
+                    else:
+                        for extras in extra.kyo_extralist(0, kyo[0], kyo[1], '香', sente_piece_list, gote_piece_list):
+                            sashite_movement_lists.append(extras)
+
+                for ryu in sente_ryu_list:
+                    if len(extra.movelist_RYU(0, ryu[0], ryu[1], '龍', sente_piece_list, gote_piece_list)) == 0:
+                        pass
+                    else:
+                        for extras in extra.movelist_RYU(0, ryu[0], ryu[1], '龍', sente_piece_list, gote_piece_list):
+                            sashite_movement_lists.append(extras)
+                for uma in sente_uma_list:
+                    if len(extra.movelist_UMA(0, uma[0], uma[1], '馬', sente_piece_list, gote_piece_list)) == 0:
+                        pass
+                    for extras in extra.movelist_UMA(0, uma[0], uma[1], '馬', sente_piece_list, gote_piece_list):
+                        sashite_movement_lists.append(extras)
+
                 for sashite_movement in sashite_movement_lists:
+
                     if [sashite_movement[0], sashite_movement[1], "玉"] in gotegyoku_mawalist:
                         gotegyoku_mawalist.remove([sashite_movement[0], sashite_movement[1], "玉"])
                 if [gotegyoku_address[0], gotegyoku_address[1], koma[1]] in sashite_movement_lists:
                     oute = True
-                print(oute)
-
                 turn = 1
 
             else:
@@ -229,25 +302,43 @@ def main():
                 os.system("say '不正な指し手です'")
 
                 continue
-
+            gote_piece_list.append(gotegyoku_address)
             display(shogiban)
             playsound()
 
         elif turn == 1:
             if oute == True:
                 if len(gotegyoku_mawalist) == 0:
-                    os.system("say '負けました'")
-                    break
+                    if [goal_Suji, goal_Dan] in pieces(1, gotegyoku_address[0], gotegyoku_address[1], '玉',
+                                                       sente_piece_list, gote_piece_list):
+                        shogiban[goal_Dan - 1][9 - goal_Suji] = [1, "玉"]
+                        gotegyoku_address = [2, "＊"]
+                        gotegyoku_address = [goal_Suji, goal_Dan]
+                        turn = 0
+                        continue
+                    else:
+                        os.system("say '負けました'")
+                        break
                 gyoku_move = random.choice(gotegyoku_mawalist)
 
                 moved = shogiban[gyoku_move[1] - 1][9 - gyoku_move[0]]
                 if moved[0] == 1:
+                    gotegyoku_mawalist.remove(gyoku_move)
                     continue
                 # 玉が駒を取ったときの処理
                 # print(moved)
                 if moved[0] == 0:
                     mochigoma_opponent.append(moved[1])
-
+                    if moved[1] == "香":
+                        sente_kyo_list.remove([gyoku_move[0], gyoku_move[1]])
+                    elif moved[1] == "飛":
+                        sente_hisya_list.remove([gyoku_move[0], gyoku_move[1]])
+                    elif moved[1] == "角":
+                        sente_kaku_list.remove([gyoku_move[0], gyoku_move[1]])
+                    elif moved[1] == "龍":
+                        sente_ryu_list.remove([gyoku_move[0], gyoku_move[1]])
+                    elif moved[1] == "馬":
+                        sente_uma_list.remove([gyoku_move[0], gyoku_move[1]])
                     sente_piece_list.remove([gyoku_move[0], gyoku_move[1]])
                 gote_piece_list.remove([gotegyoku_address[0], gotegyoku_address[1]])
                 gote_piece_list.append([gyoku_move[0], gyoku_move[1]])
@@ -311,6 +402,16 @@ def main():
                             1] == '龍' or \
                                 moved[1] == '馬':
                             moved[1] = get_narigoma(moved[1])
+                        if moved[1] == "飛":
+                            sente_hisya_list.remove([gote_move[0], gote_move[1]])
+                        elif moved[1] == "角":
+                            sente_kaku_list.remove([gote_move[0], gote_move[1]])
+                        elif moved[1] == "香":
+                            sente_kyo_list.remove([gote_move[0], gote_move[1]])
+                        elif moved[1] == "龍":
+                            sente_ryu_list.remove([gote_move[0], gote_move[1]])
+                        elif moved[1] == "馬":
+                            sente_uma_list.remove([gote_move[0], gote_move[1]])
                         mochigoma_opponent.append(moved[1])
                         sente_piece_list.remove([gote_move[0], gote_move[1]])
 

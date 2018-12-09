@@ -444,13 +444,13 @@ if __name__ == "__main__":
 
     display(shogiban)
 
-    # r = sr.Recognizer()
-    # mic = sr.Microphone()
-    #
-    # with mic as source:
-    #     r.adjust_for_ambient_noise(source)
-    #     audio = r.listen(source)
-    # text = (r.recognize_google(audio, language='ja-JP'))
-    # if text == "お願いします":
-    #     os.system("say 'お願いします。'")
+    r = sr.Recognizer()
+    mic = sr.Microphone()
+
+    with mic as source:
+        r.adjust_for_ambient_noise(source)
+        audio = r.listen(source)
+    text = (r.recognize_google(audio, language='ja-JP'))
+    if text == "お願いします":
+        os.system("say 'お願いします。'")
     main()

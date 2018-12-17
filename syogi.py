@@ -104,7 +104,7 @@ def pieces(turn, suji, dan, koma, sente_list, gote_list):
 
 
 def main():
-    turn = 0
+    turn = random.randint(0, 1)
     oute = False
     sente_piece_list = []
     gote_piece_list = []
@@ -238,7 +238,6 @@ def main():
                 motokoma = koma
                 sashite_movement_lists = pieces(0, goal_Suji, goal_Dan, koma[1], sente_piece_list, gote_piece_list)
 
-
                 if koma[1] == "飛":
                     sente_hisya_list.remove([Origin_Suji, Origin_Dan])
                     sente_hisya_list.append([goal_Suji, goal_Dan])
@@ -312,7 +311,7 @@ def main():
                     print(pieces(1, gotegyoku_address[0], gotegyoku_address[1], '玉',
                                  sente_piece_list, gote_piece_list))
                     if [goal_Suji, goal_Dan, "玉"] in pieces(1, gotegyoku_address[0], gotegyoku_address[1], '玉',
-                                                       sente_piece_list, gote_piece_list):
+                                                            sente_piece_list, gote_piece_list):
                         shogiban[goal_Dan - 1][9 - goal_Suji] = [1, "玉"]
                         shogiban[gotegyoku_address[1] - 1][9 - gotegyoku_address[0]] = [2, "＊"]
                         mochigoma_opponent.append(koma[1])
@@ -442,12 +441,10 @@ def main():
 
 
 if __name__ == "__main__":
-    #  先手の駒、後手の駒をそれぞれリストアップする。
-    #  香車、飛車、角、竜王、馬のため
-    #  自分の駒や相手の駒を飛び越したりしないため
 
     display(shogiban)
 
+    # 「お願いします」
     r = sr.Recognizer()
     mic = sr.Microphone()
 

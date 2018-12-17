@@ -136,7 +136,10 @@ class Judgement_gogo:
             kaku_dan = kaku_dan - 1
         kaku_suji = suji
         kaku_dan = dan
-
+        lnsgkgsnl / 1
+        r5b1 / ppppppppp / 9 / 9 / 9 / PPPPPPPPP / 1
+        B5R1 / LNSGKGSNL
+        b - 1
         while (1 <= kaku_suji <= 5) and (1 <= kaku_dan <= 5):
             if kaku_suji == 5 or kaku_dan == 1:
                 break

@@ -15,6 +15,7 @@ turn = 0
 mochigoma_opponent = ["歩", "歩"]
 mochigoma_me = ["飛車"]
 
+
 class Syogiban2sfen(object):
     def sfen(self):
         sfen = ''
@@ -46,19 +47,45 @@ class Syogiban2sfen(object):
         if mochigoma_opponent == [] and mochigoma_me == []:
             sfen = sfen + " -"
         else:
+            mochigoma_sfen = []
+            for koma in mochigoma_me:
+                if koma == "歩":
+                    mochigoma_sfen.append("P")
+                if koma == "香":
+                    mochigoma_sfen.append("L")
+                if koma == "桂":
+                    mochigoma_sfen.append("N")
+                if koma == "銀":
+                    mochigoma_sfen.append("S")
+                if koma == "飛":
+                    mochigoma_sfen.append("R")
+                if koma == "角":
+                    mochigoma_sfen.append("B")
+            for koma in mochigoma_opponent:
+                if koma == "歩":
+                    mochigoma_sfen.append("p")
+                if koma == "香":
+                    mochigoma_sfen.append("l")
+                if koma == "桂":
+                    mochigoma_sfen.append("n")
+                if koma == "銀":
+                    mochigoma_sfen.append("s")
+                if koma == "飛":
+                    mochigoma_sfen.append("r")
+                if koma == "角":
+                    mochigoma_sfen.append("b")
+
 
         sfen = sfen + " 1"
         return sfen
 
-    # 盤面の各駒をsfen表記に置きかえる
-    # white側は小文字 black側は大文字
-    # *のところを数えてその数を返す必要
     # 持ち駒の表示順序はとりあえずK → R → B → G → S → N → L → P → k → r → b → g → s → n → l → pにしてみよう
     # それぞれの駒を持ち駒リストから探索する必要がある
     # つまり引数として必要なのは、盤面、それぞれの持ち駒リスト、手番の4つ?
-    # 最後の数字は1で固定らしい
     # https://ch.nicovideo.jp/kifuwarabe/blomaga/ar795371
     # http://shogidokoro.starfree.jp/usi.html
+    def mochigoma_count(self, list, koma):
+
     def piece_sfen(self, turn, piece):
         sfen_piece = ""
         if piece == "歩" or piece == "と":

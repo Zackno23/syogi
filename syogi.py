@@ -3,6 +3,7 @@ import random
 import time
 
 import pygame
+import speech_recognition as sr
 from mutagen.mp3 import MP3 as mp3
 
 from hisya_kyo_kaku_extralist import Extralist
@@ -444,13 +445,13 @@ if __name__ == "__main__":
     display(shogiban)
 
     # 「お願いします」
-    # r = sr.Recognizer()
-    # mic = sr.Microphone()
-    #
-    # with mic as source:
-    #     r.adjust_for_ambient_noise(source)
-    #     audio = r.listen(source)
-    # text = (r.recognize_google(audio, language='ja-JP'))
-    # if text == "お願いします":
-    #     os.system("say 'お願いします。'")
+    r = sr.Recognizer()
+    mic = sr.Microphone()
+
+    with mic as source:
+        r.adjust_for_ambient_noise(source)
+        audio = r.listen(source)
+    text = (r.recognize_google(audio, language='ja-JP'))
+    if text == "お願いします":
+        os.system("say 'お願いします。'")
     main()

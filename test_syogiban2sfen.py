@@ -7,12 +7,14 @@ class Syogiban2sfen(object):
         empty_count = 0
         for dan in range(len(shogiban)):
             for masume in range(len(shogiban[dan])):
+                # マス目に駒がなかった場合の処理
                 if shogiban[dan][masume][1] == "＊":
                     empty_count += 1
                 elif shogiban[dan][masume][1] != "＊" and empty_count != 0:
                     sfen = sfen + str(empty_count) + Syogiban2sfen.piece_sfen(self, shogiban[dan][masume][0],
                                                                               shogiban[dan][masume][1])
                     empty_count = 0
+                # 一筋目のマス目が空だったとき、数字を出力する
                 elif masume == 8 and empty_count != 0:
                     sfen = str(empty_count)
                     empty_count = 0
@@ -22,60 +24,46 @@ class Syogiban2sfen(object):
                 sfen = sfen + str(empty_count)
             sfen = sfen + "/"
             empty_count = 0
-        sfen = sfen[:-1]
+        sfen = sfen[:-1]  # 最後の/を削除
 
-        if turn == 0:
-            sfen = sfen + " b"
+        if turn == 0:  # sfenの手番を指定
+            sfen = sfen + " b"  # black
         elif turn == 1:
-            sfen = sfen + " w"
+            sfen = sfen + " w"  # white
 
         if mochigoma_opponent == [] and mochigoma_me == []:
             sfen = sfen + " -"
         else:
-            mochigoma_sfen_temp = []
+            mochigoma_sfen_temp = []  # 一時的に持ち駒全部入りのリストを作る。例)先手が歩二枚の場合、2PでなくPPとなる
             if len(mochigoma_me) >= 1:
-                list_turn = 1
-                for koma in mochigoma_me:
-                    mochigoma_sfen_temp.append(Syogiban2sfen.mochigoma_count(self, list_turn, koma))
-            if len(mochigoma_opponent) >= 1:
                 list_turn = 0
+                for koma in mochigoma_me:
+                    mochigoma_sfen_temp.append(Syogiban2sfen.piece_sfen(self, list_turn, koma))
+            if len(mochigoma_opponent) >= 1:
+                list_turn = 1
                 for koma in mochigoma_opponent:
-                    mochigoma_sfen_temp.append(Syogiban2sfen.mochigoma_count(self, list_turn, koma))
-
-            mochigoma_sfen = Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("R"),
-                                                              "R") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                                      mochigoma_sfen_temp.count(
-                                                                                                          "B"),
-                                                                                                      "B") + Syogiban2sfen.mochigoma_makesfen(
-                self, mochigoma_sfen_temp.count("G"), "G") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                              mochigoma_sfen_temp.count(
-                                                                                                  "S"),
-                                                                                              "S") + Syogiban2sfen.mochigoma_makesfen(
-                self, mochigoma_sfen_temp.count("N"), "N") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                              mochigoma_sfen_temp.count(
-                                                                                                  "L"),
-                                                                                              "L") + Syogiban2sfen.mochigoma_makesfen(
-                self, mochigoma_sfen_temp.count("P"), "P") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                              mochigoma_sfen_temp.count(
-                                                                                                  "r"),
-                                                                                              "r") + Syogiban2sfen.mochigoma_makesfen(
-                self, mochigoma_sfen_temp.count("b"), "b") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                              mochigoma_sfen_temp.count(
-                                                                                                  "g"),
-                                                                                              "g") + Syogiban2sfen.mochigoma_makesfen(
-                self, mochigoma_sfen_temp.count("s"), "s") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                              mochigoma_sfen_temp.count(
-                                                                                                  "n"),
-                                                                                              "n") + Syogiban2sfen.mochigoma_makesfen(
-                self, mochigoma_sfen_temp.count("l"), "l") + Syogiban2sfen.mochigoma_makesfen(self,
-                                                                                              mochigoma_sfen_temp.count(
-                                                                                                  "p"), "p")
+                    mochigoma_sfen_temp.append(Syogiban2sfen.piece_sfen(self, list_turn, koma))
+            # mochigoma_tempを正しいSFENにする:各アルファベットの数をカウントし、順番にならべる
+            mochigoma_sfen = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}".format(
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("R"), "R"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("B"), "B"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("G"), "G"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("S"), "S"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("N"), "N"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("L"), "L"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("P"), "P"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("r"), "r"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("b"), "b"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("g"), "g"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("s"), "s"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("n"), "n"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("l"), "l"),
+                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("p"), "p"))
             sfen = sfen + " " + mochigoma_sfen
 
-        sfen = sfen + " 1"
+        sfen = sfen + " 1"  # おまじない
         return sfen
 
-    # 持ち駒の表示順序はとりあえずK → R → B → G → S → N → L → P → k → r → b → g → s → n → l → pにしてみよう
     def mochigoma_makesfen(self, num, koma):
         if num == 1:
             return koma
@@ -83,28 +71,6 @@ class Syogiban2sfen(object):
             return str(num) + koma
         else:
             return ""
-
-    def mochigoma_count(self, list_turn, koma):
-        sfen = ""
-        if koma == "歩":
-            sfen = "p"
-        if koma == "香":
-            sfen = "l"
-        if koma == "桂":
-            sfen = "n"
-        if koma == "銀":
-            sfen = "s"
-        if koma == "金":
-            sfen = "g"
-        if koma == "角":
-            sfen = "b"
-        if koma == "飛":
-            sfen = "r"
-
-        if list_turn == 1:
-            sfen = sfen.upper()
-
-        return sfen
 
     def piece_sfen(self, turn, piece):
         sfen_piece = ""

@@ -13,7 +13,6 @@ class Extralist:
                         valid_list.append([suji, 8 - i, koma])
             else:
                 return []
-
         return valid_list
 
     def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list):

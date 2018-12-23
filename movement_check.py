@@ -107,6 +107,7 @@ class Judgement:
                 valid_list.append(x)
 
         return valid_list
+
     def movelist_KAKU(self, sengo, suji, dan, koma, sente_list, gote_list):
         valid_list = []
         kaku_suji = suji

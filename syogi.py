@@ -189,7 +189,9 @@ def main():
                 goal_Suji = int(input("筋"))
                 goal_Dan = int(input("段"))
                 moved = shogiban[goal_Dan - 1][9 - goal_Suji]
-                if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn, Origin_Suji, Origin_Dan, koma[1],
+                if [goal_Suji, goal_Dan, koma[1]] not in pieces(turn,
+                                                                Origin_Suji,
+                                                                Origin_Dan, koma[1],
                                                                 sente_piece_list,
                                                                 gote_piece_list):
                     print("不正な指し手です。")

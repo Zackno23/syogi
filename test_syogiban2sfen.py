@@ -1,23 +1,8 @@
 import unittest
 
-dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
-dan1 = [[2, '＊'], [1, '飛'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [1, '角'], [2, '＊']]
-dan2 = [[1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩']]
-dan3 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan4 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan5 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-dan6 = [[0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩']]
-dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊']]
-dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
-
-shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
-turn = 0
-mochigoma_opponent = ["歩", "歩"]
-mochigoma_me = ["飛車"]
-
 
 class Syogiban2sfen(object):
-    def sfen(self):
+    def sfen(self, shogiban, turn, mochigoma_me, mochigoma_opponent):
         sfen = ''
         empty_count = 0
         for dan in range(len(shogiban)):
@@ -47,44 +32,79 @@ class Syogiban2sfen(object):
         if mochigoma_opponent == [] and mochigoma_me == []:
             sfen = sfen + " -"
         else:
-            mochigoma_sfen = []
-            for koma in mochigoma_me:
-                if koma == "歩":
-                    mochigoma_sfen.append("P")
-                if koma == "香":
-                    mochigoma_sfen.append("L")
-                if koma == "桂":
-                    mochigoma_sfen.append("N")
-                if koma == "銀":
-                    mochigoma_sfen.append("S")
-                if koma == "飛":
-                    mochigoma_sfen.append("R")
-                if koma == "角":
-                    mochigoma_sfen.append("B")
-            for koma in mochigoma_opponent:
-                if koma == "歩":
-                    mochigoma_sfen.append("p")
-                if koma == "香":
-                    mochigoma_sfen.append("l")
-                if koma == "桂":
-                    mochigoma_sfen.append("n")
-                if koma == "銀":
-                    mochigoma_sfen.append("s")
-                if koma == "飛":
-                    mochigoma_sfen.append("r")
-                if koma == "角":
-                    mochigoma_sfen.append("b")
+            mochigoma_sfen_temp = []
+            if len(mochigoma_me) >= 1:
+                list_turn = 1
+                for koma in mochigoma_me:
+                    mochigoma_sfen_temp.append(Syogiban2sfen.mochigoma_count(self, list_turn, koma))
+            if len(mochigoma_opponent) >= 1:
+                list_turn = 0
+                for koma in mochigoma_opponent:
+                    mochigoma_sfen_temp.append(Syogiban2sfen.mochigoma_count(self, list_turn, koma))
 
+            mochigoma_sfen = Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("R"),
+                                                              "R") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                                      mochigoma_sfen_temp.count(
+                                                                                                          "B"),
+                                                                                                      "B") + Syogiban2sfen.mochigoma_makesfen(
+                self, mochigoma_sfen_temp.count("G"), "G") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                              mochigoma_sfen_temp.count(
+                                                                                                  "S"),
+                                                                                              "S") + Syogiban2sfen.mochigoma_makesfen(
+                self, mochigoma_sfen_temp.count("N"), "N") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                              mochigoma_sfen_temp.count(
+                                                                                                  "L"),
+                                                                                              "L") + Syogiban2sfen.mochigoma_makesfen(
+                self, mochigoma_sfen_temp.count("P"), "P") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                              mochigoma_sfen_temp.count(
+                                                                                                  "r"),
+                                                                                              "r") + Syogiban2sfen.mochigoma_makesfen(
+                self, mochigoma_sfen_temp.count("b"), "b") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                              mochigoma_sfen_temp.count(
+                                                                                                  "g"),
+                                                                                              "g") + Syogiban2sfen.mochigoma_makesfen(
+                self, mochigoma_sfen_temp.count("s"), "s") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                              mochigoma_sfen_temp.count(
+                                                                                                  "n"),
+                                                                                              "n") + Syogiban2sfen.mochigoma_makesfen(
+                self, mochigoma_sfen_temp.count("l"), "l") + Syogiban2sfen.mochigoma_makesfen(self,
+                                                                                              mochigoma_sfen_temp.count(
+                                                                                                  "p"), "p")
+            sfen = sfen + " " + mochigoma_sfen
 
         sfen = sfen + " 1"
         return sfen
 
     # 持ち駒の表示順序はとりあえずK → R → B → G → S → N → L → P → k → r → b → g → s → n → l → pにしてみよう
-    # それぞれの駒を持ち駒リストから探索する必要がある
-    # つまり引数として必要なのは、盤面、それぞれの持ち駒リスト、手番の4つ?
-    # https://ch.nicovideo.jp/kifuwarabe/blomaga/ar795371
-    # http://shogidokoro.starfree.jp/usi.html
-    def mochigoma_count(self, list, koma):
+    def mochigoma_makesfen(self, num, koma):
+        if num == 1:
+            return koma
+        elif num >= 2:
+            return str(num) + koma
+        else:
+            return ""
+
+    def mochigoma_count(self, list_turn, koma):
+        sfen = ""
+        if koma == "歩":
+            sfen = "p"
+        if koma == "香":
+            sfen = "l"
+        if koma == "桂":
+            sfen = "n"
+        if koma == "銀":
+            sfen = "s"
+        if koma == "金":
+            sfen = "g"
+        if koma == "角":
+            sfen = "b"
+        if koma == "飛":
+            sfen = "r"
+
+        if list_turn == 1:
+            sfen = sfen.upper()
+
+        return sfen
 
     def piece_sfen(self, turn, piece):
         sfen_piece = ""
@@ -114,10 +134,25 @@ class Syogiban2sfen(object):
 
 
 class MyTestCase(unittest.TestCase):
+
     def test_初形を入力し初形のsfenを返す_手番はとりあえず手前側つまりblack(self):
-        expected = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1"
+        dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
+        dan1 = [[2, '＊'], [1, '飛'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [1, '角'], [2, '＊']]
+        dan2 = [[1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩']]
+        dan3 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
+        dan4 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
+        dan5 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
+        dan6 = [[0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩']]
+        dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊']]
+        dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
+
+        shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
+        turn = 0
+        mochigoma_opponent = ["歩", "歩"]
+        mochigoma_me = ["飛"]
+        expected = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b R2p 1"
         syogiban2sfen = Syogiban2sfen()
-        actual = syogiban2sfen.sfen()
+        actual = syogiban2sfen.sfen(shogiban, turn, mochigoma_me, mochigoma_opponent)
         self.assertEqual(expected, actual)
 
 

@@ -11,8 +11,8 @@ class Syogiban2sfen(object):
                 if shogiban[dan][masume][1] == "＊":
                     empty_count += 1
                 elif shogiban[dan][masume][1] != "＊" and empty_count != 0:
-                    sfen = sfen + str(empty_count) + Syogiban2sfen.piece_sfen(self, shogiban[dan][masume][0],
-                                                                              shogiban[dan][masume][1])
+                    sfen = sfen + str(empty_count) \
+                           + Syogiban2sfen.piece_sfen(self, shogiban[dan][masume][0], shogiban[dan][masume][1])
                     empty_count = 0
                 # 一筋目のマス目が空だったとき、数字を出力する
                 elif masume == 8 and empty_count != 0:
@@ -72,7 +72,7 @@ class Syogiban2sfen(object):
         else:
             return ""
 
-    def piece_sfen(self, turn, piece):
+    def piece_sfen(self, turn, piece):  # 駒のsfen記号への変換
         sfen_piece = ""
         if piece == "歩" or piece == "と":
             sfen_piece = "p"

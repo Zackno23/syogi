@@ -44,21 +44,11 @@ class Syogiban2sfen(object):
                 for koma in mochigoma_opponent:
                     mochigoma_sfen_temp.append(Syogiban2sfen.piece_sfen(self, list_turn, koma))
             # mochigoma_tempを正しいSFENにする:各アルファベットの数をカウントし、順番にならべる
-            mochigoma_sfen = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}".format(
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("R"), "R"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("B"), "B"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("G"), "G"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("S"), "S"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("N"), "N"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("L"), "L"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("P"), "P"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("r"), "r"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("b"), "b"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("g"), "g"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("s"), "s"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("n"), "n"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("l"), "l"),
-                Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count("p"), "p"))
+            piece_list = ["R", "B", "G", "S", "N", "L", "P", "r", "b", "g", "s", "n", "l", "p"]
+            mochigoma_sfen = ""
+            for i in piece_list:
+                mochigoma_sfen = mochigoma_sfen + Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count(i),
+                                                                                   i)
             sfen = sfen + " " + mochigoma_sfen
 
         sfen = sfen + " 1"  # おまじない

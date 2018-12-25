@@ -24,7 +24,7 @@ def gikou(sfen):
         url=f'https://17xn1ovxga.execute-api.ap-northeast-1.amazonaws.com/production/gikou?byoyomi=10000&position=sfen {sfen}')
     data = r.json()
     gikou_result = data['bestmove']
-    return gikou_result
+    return [gikou_result, data]
 
 
 def display(board):
@@ -124,10 +124,14 @@ def main():
         if turn == 1:
             banmen = Syogiban2sfen()
             sfen = banmen.sfen(shogiban, turn, プレーヤーの持ち駒, CPUの持ち駒)
-            print(gikou(sfen))
+            print(sfen)
+            result = gikou(sfen)
+            print(result[0])
+            print(result[1])
             # 二文字めが*だったら打ちなので、CPUの持ち駒から削除し、盤面を変更する
             # 移動先に駒があるかをチェックし、CPUの持ち駒に足し、盤面を変更
             # 最後の文字が+の場合は、駒の成り
+            # 先手玉をとった場合、先手の負けの処理
 
             turn = 0
             continue

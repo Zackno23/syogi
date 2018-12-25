@@ -11,7 +11,8 @@ def narigoma(koma):
         return "龍"
     if koma == '角':
         return "馬"
-
+    else:
+        return koma
 
 def get_narigoma(koma):
     if koma == "と":
@@ -26,3 +27,5 @@ def get_narigoma(koma):
         return "飛"
     if koma == "馬":
         return "角"
+    else:
+        return koma

@@ -1,4 +1,3 @@
-import unittest
 
 
 class Syogiban2sfen(object):
@@ -85,28 +84,3 @@ class Syogiban2sfen(object):
         return sfen_piece
 
 
-class MyTestCase(unittest.TestCase):
-
-    def test_初形を入力し初形のsfenを返す_手番はとりあえず手前側つまりblack(self):
-        dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
-        dan1 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [1, '角'], [2, '＊']]
-        dan2 = [[1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩'], [1, '歩']]
-        dan3 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-        dan4 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-        dan5 = [[2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊']]
-        dan6 = [[0, '歩'], [2, '＊'], [2, '＊'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩'], [0, '歩']]
-        dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], [0, '飛'], [2, '＊']]
-        dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
-
-        shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
-        turn = 0
-        mochigoma_opponent = ["歩", "歩"]
-        mochigoma_me = ["飛"]
-        expected = "lnsgkgsnl/7b1/ppppppppp/9/9/9/P2PPPPPP/1B5R1/LNSGKGSNL b R2p 1"
-        syogiban2sfen = Syogiban2sfen()
-        actual = syogiban2sfen.sfen(shogiban, turn, mochigoma_me, mochigoma_opponent)
-        self.assertEqual(expected, actual)
-
-
-if __name__ == "__main__":
-    unittest.main()

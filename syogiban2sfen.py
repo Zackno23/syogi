@@ -2,7 +2,7 @@
 
 class Syogiban2sfen(object):
     def sfen(self, shogiban, turn, mochigoma_me, mochigoma_opponent):
-        sfen = ''
+        sfen = '%20'
         empty_count = 0
         for dan in range(len(shogiban)):
             for masume in range(len(shogiban[dan])):
@@ -22,12 +22,12 @@ class Syogiban2sfen(object):
         sfen = sfen[:-1]  # 最後の/を削除
 
         if turn == 0:  # sfenの手番を指定
-            sfen = sfen + " b"  # black
+            sfen = sfen + "%20b"  # black
         elif turn == 1:
-            sfen = sfen + " w"  # white
+            sfen = sfen + "%20w"  # white
 
         if mochigoma_opponent == [] and mochigoma_me == []:
-            sfen = sfen + " -"
+            sfen = sfen + "%20-"
         else:
             mochigoma_sfen_temp = []  # 一時的に持ち駒全部入りのリストを作る。例)先手が歩二枚の場合、2PでなくPPとなる
             if len(mochigoma_me) >= 1:
@@ -44,9 +44,9 @@ class Syogiban2sfen(object):
             for i in piece_list:
                 mochigoma_sfen = mochigoma_sfen + Syogiban2sfen.mochigoma_makesfen(self, mochigoma_sfen_temp.count(i),
                                                                                    i)
-            sfen = sfen + " " + mochigoma_sfen
+            sfen = sfen + "%20" + mochigoma_sfen
 
-        sfen = sfen + " 1"  # おまじない
+        sfen = sfen + "%201"  # おまじない
         return sfen
 
     def mochigoma_makesfen(self, num, koma):
@@ -80,7 +80,7 @@ class Syogiban2sfen(object):
             sfen_piece = sfen_piece.upper()
 
         if piece == 'と' or piece == '杏' or piece == '圭' or piece == '全' or piece == '龍' or piece == '馬':
-            sfen_piece = "+" + sfen_piece
+            sfen_piece = "%2b" + sfen_piece
         return sfen_piece
 
 

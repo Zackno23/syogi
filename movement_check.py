@@ -427,8 +427,10 @@ class Judgement:
 
             uma_suji = uma_suji - 1
             uma_dan = uma_dan + 1
-        nari_list = [[uma_suji + 1, uma_dan, koma], [uma_suji - 1, uma_dan, koma], [uma_suji, uma_dan + 1, koma],
-                     [uma_suji, uma_dan - 1, koma]]
+        uma_suji = suji
+        uma_dan = dan
+        nari_list = [[suji + 1, dan, koma], [suji - 1, dan, koma], [suji, dan + 1, koma],
+                     [suji, dan - 1, koma]]
         for x in nari_list:
             no_ten = 6 not in x
             no_zero = 0 not in x

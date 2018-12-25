@@ -105,6 +105,7 @@ def main():
                 print("不正な指し手です。")
                 continue
             elif [移動先_筋, 移動先_段, 動かす駒] not in pieces(turn, 移動元_筋, 移動元_段, 動かす駒, 先手駒リスト, 後手駒リスト):
+                print(pieces(turn, 移動元_筋, 移動元_段, 動かす駒, 先手駒リスト, 後手駒リスト))
                 print("不正な指し手です。")
                 continue
             elif kifu_to_baord(移動先_筋, 移動先_段, shogiban)[0] == 1:

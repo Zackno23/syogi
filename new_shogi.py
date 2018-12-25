@@ -46,12 +46,13 @@ def kifu_to_baord(suji, dan, shogiban):  # 符号からshogibanのリスト表�
 
 
 def main():
-    先手駒リスト = []
-    後手駒リスト = []
-    empty_piece_list = []
+
 
     turn = 0
     while True:
+        先手駒リスト = []
+        後手駒リスト = []
+        empty_piece_list = []
         for a in range(len(shogiban)):
             for b in range(len(shogiban[a])):
                 if shogiban[a][b][0] == 0:

@@ -15,7 +15,7 @@ dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], 
 dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
 shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
 
-CPUの持ち駒 = []
+CPUの持ち駒 = ["歩", "香"]
 プレーヤーの持ち駒 = []
 
 
@@ -24,21 +24,22 @@ def gikou(sfen):
         url=f'https://17xn1ovxga.execute-api.ap-northeast-1.amazonaws.com/production/gikou?byoyomi=10000&position=sfen {sfen}')
     data = r.json()
     gikou_result = data['bestmove']
-    return [gikou_result, data]
+    return gikou_result, data
 
 
 def display(board):
     if len(CPUの持ち駒) > 0:
         for i in CPUの持ち駒:
-            print(i)
+            print(i, end=" ")
+        print("")
     for dan in range(len(board)):
         for i in board[dan]:
             print(i[1], end="")
         print("")
     if len(プレーヤーの持ち駒) > 0:
         for i in プレーヤーの持ち駒:
-            print(i)
-
+            print(i, end=" ")
+        print("")
 
 def kifu_to_baord(suji, dan, shogiban):  # 符号からshogibanのリスト表記に変換
     return shogiban[dan - 1][9 - suji]

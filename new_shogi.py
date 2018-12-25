@@ -1,3 +1,5 @@
+import requests
+
 from nari import get_narigoma, narigoma
 from piece_selection import pieces
 from syogiban2sfen import Syogiban2sfen
@@ -15,6 +17,14 @@ shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
 
 CPUの持ち駒 = []
 プレーヤーの持ち駒 = []
+
+
+def gikou(sfen):
+    r = requests.get(
+        url=f'https://17xn1ovxga.execute-api.ap-northeast-1.amazonaws.com/production/gikou?byoyomi=10000&position=sfen {sfen}')
+    data = r.json()
+    gikou_result = data['bestmove']
+    return gikou_result
 
 
 def display(board):
@@ -113,8 +123,13 @@ def main():
         if turn == 1:
             banmen = Syogiban2sfen()
             sfen = banmen.sfen(shogiban, turn, プレーヤーの持ち駒, CPUの持ち駒)
-            print(sfen)
-            break
+            print(gikou(sfen))
+            # 二文字めが*だったら打ちなので、CPUの持ち駒から削除し、盤面を変更する
+            # 移動先に駒があるかをチェックし、CPUの持ち駒に足し、盤面を変更
+            # 最後の文字が+の場合は、駒の成り
+
+            turn = 0
+            continue
 
 
 

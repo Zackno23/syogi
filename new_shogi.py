@@ -24,7 +24,7 @@ def gikou(sfen):
         url=f'https://17xn1ovxga.execute-api.ap-northeast-1.amazonaws.com/production/gikou?byoyomi=10000&position=sfen {sfen}')
     data = r.json()
     gikou_result = data['bestmove']
-    return gikou_result, data
+    return gikou_result
 
 
 def display(board):
@@ -41,14 +41,12 @@ def display(board):
             print(i, end=" ")
         print("")
 
+
 def kifu_to_baord(suji, dan, shogiban):  # 符号からshogibanのリスト表記に変換
     return shogiban[dan - 1][9 - suji]
 
 
-
 def main():
-
-
     turn = 0
     while True:
         先手駒リスト = []
@@ -128,8 +126,11 @@ def main():
             sfen = banmen.sfen(shogiban, turn, プレーヤーの持ち駒, CPUの持ち駒)
             print(sfen)
             result = gikou(sfen)
-            print(result[0])
-            print(result[1])
+            print(result)
+            if result[1:2] == "*":
+
+            if result[4:] == "+":
+
             # 二文字めが*だったら打ちなので、CPUの持ち駒から削除し、盤面を変更する
             # 移動先に駒があるかをチェックし、CPUの持ち駒に足し、盤面を変更
             # 最後の文字が+の場合は、駒の成り
@@ -137,7 +138,6 @@ def main():
 
             turn = 0
             continue
-
 
 
 if __name__ == "__main__":

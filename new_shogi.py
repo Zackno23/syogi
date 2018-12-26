@@ -2,6 +2,7 @@ import requests
 
 from nari import get_narigoma, narigoma
 from piece_selection import pieces
+from sfen2sashite import sfen2sashite, dan_sfen2banmen
 from syogiban2sfen import Syogiban2sfen
 
 dan0 = [[1, '香'], [1, '桂'], [1, '銀'], [1, '金'], [1, "玉"], [1, '金'], [1, '銀'], [1, '桂'], [1, '香']]
@@ -15,7 +16,7 @@ dan7 = [[2, '＊'], [0, '角'], [2, '＊'], [2, '＊'], [2, '＊'], [2, '＊'], 
 dan8 = [[0, '香'], [0, '桂'], [0, '銀'], [0, '金'], [0, "玉"], [0, '金'], [0, '銀'], [0, '桂'], [0, '香']]
 shogiban = [dan0, dan1, dan2, dan3, dan4, dan5, dan6, dan7, dan8]
 
-CPUの持ち駒 = ["歩", "香"]
+CPUの持ち駒 = []
 プレーヤーの持ち駒 = []
 
 
@@ -128,10 +129,28 @@ def main():
             result = gikou(sfen)
             print(result)
             if result[1:2] == "*":
+                CPUの持ち駒.remove(sfen2sashite(result[:1]))
+                打ち筋 = int(result[2:3])
+                打ち段 = dan_sfen2banmen(result[3:4])
+                shogiban[打ち段 - 1][9 - 打ち筋] = [1, sfen2sashite(result[:1])]
+            else:
+                移動元_筋 = int(result[:1])
+                移動元_段 = dan_sfen2banmen(result[1:2])
+                移動先_筋 = int(result[2:3])
+                移動先_段 = dan_sfen2banmen(result[3:4])
+                if shogiban[移動先_段 - 1][9 - 移動先_筋][0] == 0:
+                    CPUの持ち駒.append(shogiban[移動先_段 - 1][9 - 移動先_筋][1])
+                shogiban[移動先_段 - 1][9 - 移動先_筋] = [turn, shogiban[移動元_段 - 1][9 - 移動元_筋][1]]
+                shogiban[移動元_段 - 1][9 - 移動元_筋] = [2, "＊"]
+                if len(result) == 5:
+                    shogiban[移動先_段 - 1][9 - 移動先_筋][1] = narigoma(shogiban[移動先_段 - 1][9 - 移動先_筋][1])
+            turn = 0
+            display(shogiban)
+            continue
 
-            if result[4:] == "+":
 
-            # 二文字めが*だったら打ちなので、CPUの持ち駒から削除し、盤面を変更する
+
+
             # 移動先に駒があるかをチェックし、CPUの持ち駒に足し、盤面を変更
             # 最後の文字が+の場合は、駒の成り
             # 先手玉をとった場合、先手の負けの処理
